@@ -2,19 +2,22 @@ import { currentUser } from "./CommentSection"
 import { StateT } from "./CommentSection"
 
 export default function AddComment({
-    updateState
+    data
 }: {
-    updateState?: React.Dispatch<React.SetStateAction<StateT>>
+    data: {
+        updateState?: React.Dispatch<React.SetStateAction<StateT>>
+        placeholder: string
+    }
 }) {
     const user = currentUser
-    
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
         const form = e.currentTarget as HTMLFormElement
         const [[, comment]] = new FormData(form)
 
-        if (!updateState) {
+        if (!data.updateState) {
             alert(`The reply feature is under construction. Try adding a comment below instead!`)
             return
         }
@@ -22,18 +25,16 @@ export default function AddComment({
         if (comment) {
             let nextID = 4
 
-            updateState((prev: any) => {
-                console.log(prev)
-
+            data.updateState(prev => {
                 return [
                     ...prev,
                     {
-                        "id": nextID++,
-                        "content": comment,
-                        "createdAt": "now",
-                        "score": 0,
+                        id: nextID++,
+                        content: comment as string,
+                        createdAt: "now",
+                        score: 0,
                         user,
-                        "replies": []
+                        replies: []
                     }
                 ]
             })
@@ -60,7 +61,7 @@ export default function AddComment({
                     type="text"
                     className='p-4 pt-2 pb-20 w-full border border-[hsl(223, 19%, 93%)] outline-none rounded-md'
                     name="comment"
-                    placeholder='Add a comment...'
+                    placeholder={data.placeholder}
                 />
                 <button
                     className='bg-primary-moderate-blue p-2 px-4 mt-4 rounded-md text-white uppercase'

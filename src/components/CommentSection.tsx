@@ -44,7 +44,10 @@ export default function CommentSection() {
                 )})
             }
 
-            <AddComment updateState={setState} />
+            <AddComment data={{
+                updateState: setState,
+                placeholder: 'Add comment...'
+            }} />
         </div>
     )
 }
