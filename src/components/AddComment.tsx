@@ -13,9 +13,12 @@ export default function AddComment({
         const form = e.currentTarget as HTMLFormElement
         const [[, comment]] = new FormData(form)
 
-        if (!updateState) return
+        if (!updateState) {
+            alert(`The reply feature is under construction. Try adding a comment below instead!`)
+            return
+        }
 
-        updateState((prev: any) => {
+        if (comment) updateState((prev: any) => {
             return [
                 ...prev,
                 {
