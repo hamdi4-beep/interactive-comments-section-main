@@ -20,7 +20,6 @@ export default function Comment({
     const reply = data as ReplyT
 
     const isCurrentUser = user.username === currentUser?.username
-    const isReply = isReplying && data.currentUser
 
     const handleReply = () => setIsReplying(!isReplying)
 
@@ -67,8 +66,10 @@ export default function Comment({
                 </div>
             </div>
 
-            {isReply && (
-                <AddComment  />
+            {isReplying && (
+                <AddComment data={{
+                    placeholder: 'Add a reply...'
+                }}/>
             )}
         </div>
     )
