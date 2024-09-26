@@ -13,7 +13,7 @@ export type DataT =
     | CommentT
     | ReplyT
 
-const comments = data.comments
+export const comments = data.comments
 
 const [comment] = comments.filter(comment => comment.replies)
 const [reply] = comment.replies

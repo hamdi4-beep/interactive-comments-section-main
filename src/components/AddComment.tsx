@@ -30,7 +30,7 @@ export default function AddComment({
                         "id": nextID++,
                         "content": comment,
                         "createdAt": "now",
-                        "score": 12,
+                        "score": 0,
                         user,
                         "replies": []
                     }
@@ -38,7 +38,10 @@ export default function AddComment({
             })
 
             form['comment'].value = ''
+            return
         }
+
+        alert('Please add a comment!')
     }
 
     return (

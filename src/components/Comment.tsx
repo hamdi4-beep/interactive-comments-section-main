@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { DataT, ReplyT } from './CommentSection'
+
 import AddComment from './AddComment'
 
 export default function Comment({
@@ -17,16 +18,9 @@ export default function Comment({
     } = data
 
     const reply = data as ReplyT
-    const isCurrentUser = currentUser?.username != user.username
+    const isReply = isReplying && data.currentUser
 
-    const handleReply = () => {
-        if (!isCurrentUser) {
-            alert('I have not made it possible to reply to yourself yet. Please be patient!')
-            return
-        }
-
-        setIsReplying(!isReplying)
-    }
+    const handleReply = () => setIsReplying(!isReplying)
 
     return (
         <div>
@@ -70,7 +64,7 @@ export default function Comment({
                 </div>
             </div>
 
-            {isReplying && data.currentUser && isCurrentUser && (
+            {isReply && (
                 <AddComment user={data.currentUser!} />
             )}
         </div>
