@@ -1,10 +1,19 @@
 import * as React from 'react'
+import { DataT, ReplyT } from './CommentSection'
 
 export default function Comment({
     data
 }: {
-    data: any
+    data: DataT & {
+        currentUser?: DataT['user']
+    }
 }) {
+    const {
+        currentUser,
+        user
+    } = data
+
+    const reply = data as ReplyT
 
     return (
         <div className="bg-white rounded-xl p-4">
@@ -16,15 +25,15 @@ export default function Comment({
                         <div className="flex items-center gap-3">
                             <div className="user-img">
                                 <img
-                                    src={data.user.image.png}
+                                    src={user.image.png}
                                     className="w-10 h-10"
                                     alt=""
                                 />
                             </div>
 
-                            <h2 className='font-bold'>{data.user.username}</h2>
+                            <h2 className='font-bold'>{user.username}</h2>
 
-                            {data.currentUser?.username === data.user.username && (
+                            {currentUser?.username === user.username && (
                                 <span className='bg-primary-moderate-blue px-3 leading-tight text-white'>you</span>
                             )}
 
@@ -37,7 +46,13 @@ export default function Comment({
                         </button>
                     </div>
 
-                    <p className="pt-4">{data.content}</p>
+                    <p className="pt-4">
+                        {reply.replyingTo && (
+                            <span className='font-bold text-primary-moderate-blue'>@{reply.replyingTo} </span>
+                        )}
+
+                        {data.content}
+                    </p>
                 </div>
             </div>
         </div>
