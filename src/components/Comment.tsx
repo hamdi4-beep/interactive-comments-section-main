@@ -1,60 +1,69 @@
 import * as React from 'react'
 import { DataT, ReplyT } from './CommentSection'
+import AddComment from './AddComment'
 
 export default function Comment({
-    data
+    data,
 }: {
     data: DataT & {
         currentUser?: DataT['user']
     }
 }) {
+    const [isReplying, setIsReplying] = React.useState(false)
+
     const {
         currentUser,
         user
     } = data
 
     const reply = data as ReplyT
+    const isCurrentUser = currentUser?.username !== user.username
 
     return (
-        <div className="bg-white rounded-xl p-4">
-            <div className="flex gap-4">
-                <ScoreComponent defaultScore={data.score} />
+        <div>
+            <div className="bg-white rounded-xl p-4">
+                <div className="flex gap-4">
+                    <ScoreComponent defaultScore={data.score} />
 
-                <div>
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <div className="user-img">
-                                <img
-                                    src={user.image.png}
-                                    className="w-10 h-10"
-                                    alt=""
-                                />
+                    <div>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="user-img">
+                                    <img
+                                        src={user.image.png}
+                                        className="w-10 h-10"
+                                        alt=""
+                                    />
+                                </div>
+
+                                <h2 className='font-bold'>{user.username}</h2>
+
+                                {currentUser?.username === user.username && (
+                                    <span className='bg-primary-moderate-blue px-3 leading-tight text-white'>you</span>
+                                )}
+
+                                <span className='text-neutral-grayish-blue'>{data.createdAt}</span>
                             </div>
 
-                            <h2 className='font-bold'>{user.username}</h2>
-
-                            {currentUser?.username === user.username && (
-                                <span className='bg-primary-moderate-blue px-3 leading-tight text-white'>you</span>
-                            )}
-
-                            <span className='text-neutral-grayish-blue'>{data.createdAt}</span>
+                            <button className="flex items-center gap-3 text-primary-moderate-blue font-bold" onClick={() => setIsReplying(!isReplying)}>
+                                <img src="/assets/images/icon-reply.svg" alt="" />
+                                Reply
+                            </button>
                         </div>
 
-                        <button className="flex items-center gap-3 text-primary-moderate-blue font-bold">
-                            <img src="/assets/images/icon-reply.svg" alt="" />
-                            Reply
-                        </button>
+                        <p className="pt-4">
+                            {reply.replyingTo && (
+                                <span className='font-bold text-primary-moderate-blue'>@{reply.replyingTo} </span>
+                            )}
+                            {data.content}
+                        </p>
                     </div>
-
-                    <p className="pt-4">
-                        {reply.replyingTo && (
-                            <span className='font-bold text-primary-moderate-blue'>@{reply.replyingTo} </span>
-                        )}
-
-                        {data.content}
-                    </p>
                 </div>
             </div>
+
+            {isReplying && data.currentUser && isCurrentUser && (
+                <AddComment user={data.currentUser!} />
+            )}
         </div>
     )
 }
