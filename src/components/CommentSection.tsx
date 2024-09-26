@@ -13,10 +13,12 @@ export type DataT =
     | CommentT
     | ReplyT
 
-export const comments = data.comments
+const comments = data.comments
 
 const [comment] = comments.filter(comment => comment.replies)
 const [reply] = comment.replies
+
+export const currentUser = data.currentUser
 
 export default function CommentSection() {
     const [state, setState] = React.useState(comments)
@@ -42,10 +44,7 @@ export default function CommentSection() {
                 )})
             }
 
-            <AddComment
-                user={data.currentUser}
-                updateState={setState}
-            />
+            <AddComment updateState={setState} />
         </div>
     )
 }

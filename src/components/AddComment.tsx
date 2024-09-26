@@ -1,12 +1,13 @@
-import { CommentT, StateT } from "./CommentSection"
+import { currentUser } from "./CommentSection"
+import { StateT } from "./CommentSection"
 
 export default function AddComment({
-    user,
     updateState
 }: {
-    user: CommentT['user'],
     updateState?: React.Dispatch<React.SetStateAction<StateT>>
 }) {
+    const user = currentUser
+    
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 

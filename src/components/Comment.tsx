@@ -23,7 +23,7 @@ export default function Comment({
     const handleReply = () => setIsReplying(!isReplying)
 
     return (
-        <div>
+        <div className='comment'>
             <div className="bg-white rounded-xl p-4">
                 <div className="flex gap-4">
                     <ScoreComponent defaultScore={data.score} />
@@ -58,6 +58,7 @@ export default function Comment({
                             {reply.replyingTo && (
                                 <span className='font-bold text-primary-moderate-blue'>@{reply.replyingTo} </span>
                             )}
+
                             {data.content}
                         </p>
                     </div>
@@ -65,7 +66,7 @@ export default function Comment({
             </div>
 
             {isReply && (
-                <AddComment user={data.currentUser!} />
+                <AddComment  />
             )}
         </div>
     )
