@@ -1,8 +1,9 @@
 import * as React from 'react'
 
 import Comment from './Comment'
-import data from '../data.json'
 import AddComment from './AddComment'
+
+import data from '../data.json'
 
 export type CommentT = typeof comments[0]
 export type ReplyT = typeof reply
@@ -15,9 +16,11 @@ const comments = data.comments
 const reply = comments.filter(comment => comment.replies)[0].replies[0]
 
 export default function CommentSection() {
+    const [state, setState] = React.useState(comments)
+
     return (
         <div className='grid gap-4'>
-            {comments.map(comment => {
+            {state.map(comment => {
                 const replies = comment.replies
 
                 return (
@@ -36,7 +39,10 @@ export default function CommentSection() {
                 )})
             }
 
-            <AddComment user={data.currentUser} />
+            <AddComment
+                user={data.currentUser}
+                updateState={setState}
+            />
         </div>
     )
 }

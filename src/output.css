@@ -586,6 +586,14 @@ video {
   width: 100%;
 }
 
+.w-16 {
+  width: 4rem;
+}
+
+.w-12 {
+  width: 3rem;
+}
+
 .max-w-xl {
   max-width: 36rem;
 }
@@ -722,6 +730,14 @@ video {
 .outline-none {
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+
+.outline {
+  outline-style: solid;
+}
+
+.outline-black {
+  outline-color: #000;
 }
 
 .filter {

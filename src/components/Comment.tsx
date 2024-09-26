@@ -17,7 +17,7 @@ export default function Comment({
     } = data
 
     const reply = data as ReplyT
-    const isCurrentUser = currentUser?.username !== user.username
+    const isCurrentUser = currentUser?.username != user.username
 
     return (
         <div>
@@ -25,7 +25,7 @@ export default function Comment({
                 <div className="flex gap-4">
                     <ScoreComponent defaultScore={data.score} />
 
-                    <div>
+                    <div className='w-full'>
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <div className="user-img">
@@ -46,7 +46,7 @@ export default function Comment({
                             </div>
 
                             <button className="flex items-center gap-3 text-primary-moderate-blue font-bold" onClick={() => setIsReplying(!isReplying)}>
-                                <img src="/assets/images/icon-reply.svg" alt="" />
+                                <img src="/interactive-comments-section-main/assets/images/icon-reply.svg" alt="" />
                                 Reply
                             </button>
                         </div>
@@ -79,7 +79,7 @@ const ScoreComponent = ({
     const handleDecreaseClick = () => score > 0 && setScore(score - 1)
 
     return (
-        <div className="bg-[#eee] grid text-center p-2 rounded-lg self-start w-24">
+        <div className="bg-[#eee] grid text-center p-2 rounded-lg self-start w-12">
             <button className="text-neutral-grayish-blue" onClick={handleIncreaseClick}>+</button>
             <span className='text-primary-moderate-blue font-bold py-3'>{score}</span>
             <button onClick={handleDecreaseClick}>-</button>
