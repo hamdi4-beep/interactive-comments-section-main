@@ -19,6 +19,15 @@ export default function Comment({
     const reply = data as ReplyT
     const isCurrentUser = currentUser?.username != user.username
 
+    const handleReply = () => {
+        if (!isCurrentUser) {
+            alert('I have not made it possible to reply to yourself yet. Please be patient!')
+            return
+        }
+
+        setIsReplying(!isReplying)
+    }
+
     return (
         <div>
             <div className="bg-white rounded-xl p-4">
@@ -45,7 +54,7 @@ export default function Comment({
                                 <span className='text-neutral-grayish-blue'>{data.createdAt}</span>
                             </div>
 
-                            <button className="flex items-center gap-3 text-primary-moderate-blue font-bold" onClick={() => setIsReplying(!isReplying)}>
+                            <button className="flex items-center gap-3 text-primary-moderate-blue font-bold" onClick={handleReply}>
                                 <img src="/interactive-comments-section-main/assets/images/icon-reply.svg" alt="" />
                                 Reply
                             </button>

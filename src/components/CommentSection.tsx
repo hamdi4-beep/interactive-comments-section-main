@@ -5,15 +5,18 @@ import AddComment from './AddComment'
 
 import data from '../data.json'
 
-export type CommentT = typeof comments[0]
+export type CommentT = typeof comment
 export type ReplyT = typeof reply
+export type StateT = typeof comments
 
 export type DataT = 
     | CommentT
     | ReplyT
 
 const comments = data.comments
-const reply = comments.filter(comment => comment.replies)[0].replies[0]
+
+const [comment] = comments.filter(comment => comment.replies)
+const [reply] = comment.replies
 
 export default function CommentSection() {
     const [state, setState] = React.useState(comments)

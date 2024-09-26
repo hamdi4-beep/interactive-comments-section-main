@@ -1,11 +1,11 @@
-import { CommentT } from "./CommentSection"
+import { CommentT, StateT } from "./CommentSection"
 
 export default function AddComment({
     user,
     updateState
 }: {
     user: CommentT['user'],
-    updateState?: React.Dispatch<React.SetStateAction<any>>
+    updateState?: React.Dispatch<React.SetStateAction<StateT>>
 }) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -18,19 +18,27 @@ export default function AddComment({
             return
         }
 
-        if (comment) updateState((prev: any) => {
-            return [
-                ...prev,
-                {
-                    "id": 1,
-                    "content": comment,
-                    "createdAt": "1 month ago",
-                    "score": 12,
-                    user,
-                    "replies": []
-                }
-            ]
-        })
+        if (comment) {
+            let nextID = 4
+
+            updateState((prev: any) => {
+                console.log(prev)
+
+                return [
+                    ...prev,
+                    {
+                        "id": nextID++,
+                        "content": comment,
+                        "createdAt": "now",
+                        "score": 12,
+                        user,
+                        "replies": []
+                    }
+                ]
+            })
+
+            form['comment'].value = ''
+        }
     }
 
     return (
