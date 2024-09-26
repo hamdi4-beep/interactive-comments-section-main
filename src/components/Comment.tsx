@@ -68,7 +68,11 @@ export default function Comment({
 
             {isReplying && (
                 <AddComment data={{
+<<<<<<< HEAD
                     placeholder: 'Add reply...'
+=======
+                    placeholder: 'Add a reply...'
+>>>>>>> 649d24625dbed183fe9660b88afef12d488b069a
                 }}/>
             )}
         </div>
