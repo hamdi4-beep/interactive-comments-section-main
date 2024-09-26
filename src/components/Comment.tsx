@@ -18,6 +18,8 @@ export default function Comment({
     } = data
 
     const reply = data as ReplyT
+
+    const isCurrentUser = user.username === currentUser?.username
     const isReply = isReplying && data.currentUser
 
     const handleReply = () => setIsReplying(!isReplying)
@@ -41,7 +43,7 @@ export default function Comment({
 
                                 <h2 className='font-bold'>{user.username}</h2>
 
-                                {currentUser?.username === user.username && (
+                                {isCurrentUser && (
                                     <span className='bg-primary-moderate-blue px-3 leading-tight text-white'>you</span>
                                 )}
 
