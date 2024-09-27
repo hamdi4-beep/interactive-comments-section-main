@@ -7,9 +7,16 @@ export default function FormComponent({
 }: {
     data: {
         updateComments?: Function
-        placeholder: string
+        type: string
     }
 }) {
+    const placeholder = {
+        Comment: ['Add comment...', 'Comment'],
+        Reply: ['Add reply...', 'Reply']
+    } as {
+        [key: string]: string[]
+    }
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
@@ -55,12 +62,12 @@ export default function FormComponent({
                     type="text"
                     className='p-4 pt-2 pb-20 w-full border border-[hsl(223, 19%, 93%)] outline-none rounded-md'
                     name="comment"
-                    placeholder={data.placeholder}
+                    placeholder={placeholder[data.type][0]}
                 />
                 
                 <button
                     className='bg-primary-moderate-blue p-2 px-4 mt-4 rounded-md text-white uppercase'
-                >Send</button>
+                >{placeholder[data.type][1]}</button>
             </form>
         </div>
     )

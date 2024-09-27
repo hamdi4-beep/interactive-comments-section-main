@@ -64,7 +64,7 @@ export default function Comment({
 
             {isReplying && (
                 <FormComponent data={{
-                    placeholder: 'Add reply...'
+                    type: 'Reply'
                 }} />
             )}
         </div>

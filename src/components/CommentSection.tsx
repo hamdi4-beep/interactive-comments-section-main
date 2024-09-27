@@ -61,7 +61,7 @@ export default function CommentSection() {
 
                 <FormComponent data={{
                     updateComments: addComment,
-                    placeholder: 'Add comment...'
+                    type: 'Comment'
                 }} />
             </Context.Provider>
         </div>
