@@ -6,7 +6,8 @@ import {
     currentUser,
     UserComment,
     UserReply,
-    CommentOrReply
+    CommentOrReply,
+    Context
 } from '../App'
 
 export default function Comment({
@@ -15,8 +16,10 @@ export default function Comment({
     data: CommentOrReply
 }) {
     const [isReplying, setIsReplying] = React.useState(false)
+    const ctx = React.useContext(Context)
 
     const { user } = data
+    const reply = data as UserReply
 
     const isCurrentUser = user.username === currentUser?.username
 
@@ -27,6 +30,23 @@ export default function Comment({
 
         const comment = data as UserComment
         console.log(comment)
+    }
+
+    const addReply = (newReply: any) => {
+        const comment = data as UserComment;
+        newReply.replyingTo = comment.user.username;
+
+        if (!comment.replies) {
+            alert('I have yet to modify the functionality so you can reply to replies. Thank you for your patience!')
+            return
+        }
+
+        comment.replies.push(newReply)
+
+        ctx.setComments(Array.from(new Set([
+            ...ctx.comments,
+            comment
+        ])))
     }
 
     return (
@@ -62,8 +82,8 @@ export default function Comment({
                         </div>
 
                         <p className="pt-4">
-                            {(data as UserReply).replyingTo && (
-                                <span className='font-bold text-primary-moderate-blue'>@{(data as UserReply).replyingTo} </span>
+                            {reply.replyingTo && (
+                                <span className='font-bold text-primary-moderate-blue'>@{reply.replyingTo} </span>
                             )}
 
                             {data.content}
@@ -74,6 +94,7 @@ export default function Comment({
 
             {isReplying && (
                 <FormComponent data={{
+                    updateComment: addReply,
                     type: 'Reply'
                 }} />
             )}

@@ -27,12 +27,14 @@ export const Context = React.createContext<{
 function App() {
   const [comments, setComments] = React.useState(data.comments)
 
+  const state = {
+    comments,
+    setComments
+  }
+
   return (
     <div className="max-w-xl">
-      <Context.Provider value={{
-        comments,
-        setComments
-      }}>
+      <Context.Provider value={state}>
         <CommentSection />
       </Context.Provider>
     </div>

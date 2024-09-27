@@ -9,7 +9,11 @@ import {
  } from '../App'
 
 export default function CommentSection() {
-    const {comments} = React.useContext(Context)
+    const {
+        comments,
+        setComments
+    } = React.useContext(Context)
+
     console.log(comments)
 
     return (
@@ -31,6 +35,10 @@ export default function CommentSection() {
             }
 
             <FormComponent data={{
+                updateComment: (comment: any) => setComments([
+                    ...comments,
+                    comment
+                ]),
                 type: 'Comment'
             }} />
         </div>

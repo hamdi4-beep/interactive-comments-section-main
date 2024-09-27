@@ -1,8 +1,7 @@
 import * as React from 'react'
 
 import {
-    currentUser,
-    Context
+    currentUser
 } from '../App'
 
 let nextID = 3
@@ -11,14 +10,10 @@ export default function FormComponent({
     data
 }: {
     data: {
+        updateComment: Function
         type: string
     }
 }) {
-    const {
-        comments,
-        setComments
-    } = React.useContext(Context)
-
     const placeholder = {
         Comment: ['Add comment...', 'Comment'],
         Reply: ['Add reply...', 'Reply']
@@ -33,9 +28,18 @@ export default function FormComponent({
         const [[, value]] = new FormData(form)
 
         const input = form['comment']
+        input.value = ''
 
         if (data.type === 'Reply') {
-            alert('The reply functionality is under construction!')
+            data.updateComment({
+                id: nextID++,
+                content: value as string,
+                createdAt: "now",
+                score: 0,
+                user: currentUser,
+                replyingTo: ''
+            })
+
             return
         }
 
@@ -49,12 +53,7 @@ export default function FormComponent({
                 replies: []
             }
 
-            setComments([
-                ...comments,
-                newComment
-            ])
-
-            input.value = ''
+            data.updateComment(newComment)
 
             return
         }
