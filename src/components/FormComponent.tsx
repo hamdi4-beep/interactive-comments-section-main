@@ -1,5 +1,7 @@
 import { currentUser } from "./CommentSection"
 
+let nextID = 3
+
 export default function FormComponent({
     data
 }: {
@@ -22,8 +24,6 @@ export default function FormComponent({
         }
 
         if (comment) {
-            let nextID = 4
-
             data.updateState({
                 id: nextID++,
                 content: comment as string,

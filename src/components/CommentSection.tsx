@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import Comment from './Comment'
-import AddComment from './FormComponent'
+import FormComponent from './FormComponent'
 
 import data from '../data.json'
 
@@ -12,7 +12,8 @@ export type CommentOrReply =
     | UserComment
     | UserReply
 
-const [comment] = data.comments.filter(comment => comment.replies)
+const {comments} = data
+const [comment] = comments.filter(comment => comment.replies)
 const [reply] = comment.replies
 
 export const currentUser = data.currentUser
@@ -26,6 +27,8 @@ export default function CommentSection() {
             comment
         ])
     }
+
+    console.log(comments)
 
     return (
         <div className='grid gap-4'>
@@ -45,7 +48,7 @@ export default function CommentSection() {
                 )})
             }
 
-            <AddComment data={{
+            <FormComponent data={{
                 updateState: addComment,
                 placeholder: 'Add comment...'
             }} />
