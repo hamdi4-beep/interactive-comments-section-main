@@ -7,6 +7,7 @@ export default function FormComponent({
     data
 }: {
     data: {
+        updateComments?: Function
         type: string
     }
 }) {
@@ -23,24 +24,30 @@ export default function FormComponent({
         e.preventDefault()
 
         const form = e.currentTarget as HTMLFormElement
-        const [[, comment]] = new FormData(form)
+        const [[, value]] = new FormData(form)
 
         const input = form['comment']
 
-        if (comment) {
-            const updatedComments = [
-                ...ctx.comments,
-                {
-                    id: nextID++,
-                    content: comment as string,
-                    createdAt: "now",
-                    score: 0,
-                    user: currentUser,
-                    replies: []
-                }
-            ]
+        if (!data.updateComments) {
+            alert('The reply functionality is under construction!')
+            return
+        }
 
-            ctx.setComments(updatedComments)
+        if (value) {
+            const newComment = {
+                id: nextID++,
+                content: value as string,
+                createdAt: "now",
+                score: 0,
+                user: currentUser,
+                replies: []
+            }
+
+            data.updateComments([
+                ...ctx.comments,
+                newComment
+            ])
+
             input.value = ''
 
             return

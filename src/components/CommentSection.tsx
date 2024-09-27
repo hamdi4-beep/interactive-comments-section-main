@@ -52,6 +52,9 @@ export default function CommentSection() {
                 }
 
                 <FormComponent data={{
+                    updateComments: (newComment: UserComment) => {
+                        return [...comments, newComment]
+                    },
                     type: 'Comment'
                 }} />
             </Context.Provider>

@@ -19,7 +19,7 @@ export default function Comment({
     const handleReply = () => {
         setIsReplying(!isReplying)
         
-        if (!(data as UserComment).replies) return
+        if ((data as UserComment).replies) return
 
         const comment = data as UserComment
         console.log(comment)

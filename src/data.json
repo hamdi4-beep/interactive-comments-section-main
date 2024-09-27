@@ -19,20 +19,7 @@
         },
         "username": "amyrobson"
       },
-      "replies": [{
-        "id": 3,
-        "content": "Replies are pretty cool, but I got to give myself more time before I can start working on it.",
-        "createdAt": "now",
-        "score": 0,
-        "replyingTo": "amyrobson",
-        "user": {
-          "image": { 
-            "png": "/interactive-comments-section-main/assets/images/avatars/image-ramsesmiron.png",
-            "webp": "/interactive-comments-section-main/assets/images/avatars/image-ramsesmiron.webp"
-          },
-          "username": "hamdi4-beep"
-        }
-      }]
+      "replies": []
     },
     {
       "id": 2,
