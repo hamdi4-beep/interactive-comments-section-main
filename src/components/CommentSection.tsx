@@ -5,13 +5,12 @@ import AddComment from './AddComment'
 
 import data from '../data.json'
 
-export type CommentT = typeof comment
-export type ReplyT = typeof reply
-export type StateT = typeof comments
+export type UserComment = typeof comment
+export type UserReply = typeof reply
 
-export type DataT = 
-    | CommentT
-    | ReplyT
+export type CommentOrReply = 
+    | UserComment
+    | UserReply
 
 const comments = data.comments
 
@@ -31,10 +30,7 @@ export default function CommentSection() {
                 return (
                     <div key={comment.id}>
                         <Comment
-                            data={{
-                                currentUser: data.currentUser,
-                                ...comment
-                            }}
+                            data={comment}
                         />
                         
                         {replies.length > 0 && (
@@ -55,16 +51,13 @@ export default function CommentSection() {
 const RepliesList = ({
     replies
 }: {
-    replies: ReplyT[]
+    replies: UserReply[]
 }) => {
     return (
         <div className='grid gap-4 p-4 pr-0 ml-14'>
             {replies.map((reply, i) => (
                 <Comment
-                    data={{
-                        currentUser: data.currentUser,
-                        ...reply
-                    }}
+                    data={reply}
                     key={i}
                 />
             ))}

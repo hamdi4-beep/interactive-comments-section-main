@@ -1,23 +1,19 @@
 import * as React from 'react'
-import { DataT, ReplyT } from './CommentSection'
 
 import AddComment from './AddComment'
+
+import { currentUser } from './CommentSection'
+import { CommentOrReply, UserReply } from './CommentSection'
+
 
 export default function Comment({
     data,
 }: {
-    data: DataT & {
-        currentUser?: DataT['user']
-    }
+    data: CommentOrReply
 }) {
     const [isReplying, setIsReplying] = React.useState(false)
 
-    const {
-        currentUser,
-        user
-    } = data
-
-    const reply = data as ReplyT
+    const { user } = data
 
     const isCurrentUser = user.username === currentUser?.username
 
@@ -56,8 +52,8 @@ export default function Comment({
                         </div>
 
                         <p className="pt-4">
-                            {reply.replyingTo && (
-                                <span className='font-bold text-primary-moderate-blue'>@{reply.replyingTo} </span>
+                            {(data as UserReply).replyingTo && (
+                                <span className='font-bold text-primary-moderate-blue'>@{(data as UserReply).replyingTo} </span>
                             )}
 
                             {data.content}
