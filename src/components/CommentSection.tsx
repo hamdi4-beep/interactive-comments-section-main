@@ -5,7 +5,6 @@ import Comment from './Comment'
 
 import { 
     Context,
-    UserComment,
     UserReply
  } from '../App'
 
@@ -32,7 +31,6 @@ export default function CommentSection() {
             }
 
             <FormComponent data={{
-                updateComments: (newComment: UserComment) => [...comments, newComment],
                 type: 'Comment'
             }} />
         </div>

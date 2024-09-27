@@ -11,7 +11,7 @@ export type CommentOrReply =
     | UserReply
 
 export const currentUser = data.currentUser
-export const comments = data.comments
+const comments = data.comments
 
 const [comment] = comments.filter(comment => comment.replies)
 const [reply] = comment.replies
@@ -26,7 +26,7 @@ export const Context = React.createContext<{
 
 function App() {
   const [comments, setComments] = React.useState(data.comments)
-  
+
   return (
     <div className="max-w-xl">
       <Context.Provider value={{
