@@ -1,4 +1,5 @@
-import { currentUser } from "./CommentSection"
+import * as React from 'react'
+import { Context, currentUser } from "./CommentSection"
 
 let nextID = 3
 
@@ -6,10 +7,11 @@ export default function FormComponent({
     data
 }: {
     data: {
-        updateComments?: Function
         type: string
     }
 }) {
+    const ctx = React.useContext(Context)
+
     const placeholder = {
         Comment: ['Add comment...', 'Comment'],
         Reply: ['Add reply...', 'Reply']
@@ -25,22 +27,22 @@ export default function FormComponent({
 
         const input = form['comment']
 
-        if (!data.updateComments) {
-            alert('The reply functionality is under construction.')
-            return
-        }
-
         if (comment) {
-            data.updateComments({
-                id: nextID++,
-                content: comment as string,
-                createdAt: "now",
-                score: 0,
-                user: currentUser,
-                replies: []
-            })
+            const updatedComments = [
+                ...ctx.comments,
+                {
+                    id: nextID++,
+                    content: comment as string,
+                    createdAt: "now",
+                    score: 0,
+                    user: currentUser,
+                    replies: []
+                }
+            ]
 
+            ctx.setComments(updatedComments)
             input.value = ''
+
             return
         }
 

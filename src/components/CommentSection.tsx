@@ -11,12 +11,11 @@ export type CommentOrReply =
     | UserComment
     | UserReply
 
-const {comments} = data
+export const currentUser = data.currentUser
+const comments = data.comments
 
 const [comment] = comments.filter(comment => comment.replies)
 const [reply] = comment.replies
-
-export const currentUser = data.currentUser
 
 export const Context = React.createContext<{
     comments: UserComment[]
@@ -29,13 +28,6 @@ export const Context = React.createContext<{
 export default function CommentSection() {
     const [comments, setComments] = React.useState(data.comments)
     console.log(comments)
-
-    const addComment = (comment: UserComment) => {
-        setComments([
-            ...comments,
-            comment
-        ])
-    }
 
     return (
         <div className='grid gap-4'>
@@ -60,7 +52,6 @@ export default function CommentSection() {
                 }
 
                 <FormComponent data={{
-                    updateComments: addComment,
                     type: 'Comment'
                 }} />
             </Context.Provider>
