@@ -1,18 +1,19 @@
 import * as React from 'react'
 
-import AddComment from './FormComponent'
+import FormComponent from './FormComponent'
 
 import { currentUser } from './CommentSection'
 import { CommentOrReply, UserReply } from './CommentSection'
 
 export default function Comment({
-    data,
+    data
 }: {
     data: CommentOrReply
 }) {
     const [isReplying, setIsReplying] = React.useState(false)
 
     const { user } = data
+    const reply = data as UserReply
 
     const isCurrentUser = user.username === currentUser?.username
 
@@ -51,8 +52,8 @@ export default function Comment({
                         </div>
 
                         <p className="pt-4">
-                            {(data as UserReply).replyingTo && (
-                                <span className='font-bold text-primary-moderate-blue'>@{(data as UserReply).replyingTo} </span>
+                            {reply.replyingTo && (
+                                <span className='font-bold text-primary-moderate-blue'>@{reply.replyingTo} </span>
                             )}
 
                             {data.content}
@@ -62,7 +63,7 @@ export default function Comment({
             </div>
 
             {isReplying && (
-                <AddComment data={{
+                <FormComponent data={{
                     placeholder: 'Add reply...'
                 }} />
             )}

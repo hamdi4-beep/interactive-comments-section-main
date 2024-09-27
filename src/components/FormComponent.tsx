@@ -6,7 +6,7 @@ export default function FormComponent({
     data
 }: {
     data: {
-        updateState?: Function
+        updateComments?: Function
         placeholder: string
     }
 }) {
@@ -18,13 +18,13 @@ export default function FormComponent({
 
         const input = form['comment']
 
-        if (!data.updateState) {
-            alert(`The reply feature is under construction. Try adding a comment below instead!`)
+        if (!data.updateComments) {
+            alert('The reply functionality is under construction.')
             return
         }
 
         if (comment) {
-            data.updateState({
+            data.updateComments({
                 id: nextID++,
                 content: comment as string,
                 createdAt: "now",
