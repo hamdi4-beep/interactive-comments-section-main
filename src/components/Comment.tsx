@@ -1,10 +1,9 @@
 import * as React from 'react'
 
-import AddComment from './AddComment'
+import AddComment from './FormComponent'
 
 import { currentUser } from './CommentSection'
 import { CommentOrReply, UserReply } from './CommentSection'
-
 
 export default function Comment({
     data,
@@ -65,7 +64,7 @@ export default function Comment({
             {isReplying && (
                 <AddComment data={{
                     placeholder: 'Add reply...'
-                }}/>
+                }} />
             )}
         </div>
     )

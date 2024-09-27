@@ -1,10 +1,10 @@
-import { UserComment, currentUser } from "./CommentSection"
+import { currentUser } from "./CommentSection"
 
-export default function AddComment({
+export default function FormComponent({
     data
 }: {
     data: {
-        updateState?: React.Dispatch<React.SetStateAction<UserComment[]>>
+        updateState?: Function
         placeholder: string
     }
 }) {
@@ -22,23 +22,9 @@ export default function AddComment({
         }
 
         if (comment) {
-            let nextID = 4
-
-            data.updateState(prev => {
-                return [
-                    ...prev,
-                    {
-                        id: nextID++,
-                        content: comment as string,
-                        createdAt: "now",
-                        score: 0,
-                        user: currentUser,
-                        replies: []
-                    }
-                ]
-            })
-
+            data.updateState(comment)
             input.value = ''
+            
             return
         }
 

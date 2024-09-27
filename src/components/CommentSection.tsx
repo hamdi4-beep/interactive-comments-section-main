@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import Comment from './Comment'
-import AddComment from './AddComment'
+import AddComment from './FormComponent'
 
 import data from '../data.json'
 
@@ -22,6 +22,11 @@ export const currentUser = data.currentUser
 export default function CommentSection() {
     const [state, setState] = React.useState(comments)
 
+    const addComment = (comment: UserComment) => setState([
+        ...comments,
+        comment
+    ])
+
     return (
         <div className='grid gap-4'>
             {state.map(comment => {
@@ -41,7 +46,7 @@ export default function CommentSection() {
             }
 
             <AddComment data={{
-                updateState: setState,
+                updateState: addComment,
                 placeholder: 'Add comment...'
             }} />
         </div>
