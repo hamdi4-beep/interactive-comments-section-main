@@ -12,24 +12,24 @@ export type CommentOrReply =
     | UserComment
     | UserReply
 
-const comments = data.comments
-
-const [comment] = comments.filter(comment => comment.replies)
+const [comment] = data.comments.filter(comment => comment.replies)
 const [reply] = comment.replies
 
 export const currentUser = data.currentUser
 
 export default function CommentSection() {
-    const [state, setState] = React.useState(comments)
+    const [comments, setComments] = React.useState(data.comments)
 
-    const addComment = (comment: UserComment) => setState([
-        ...comments,
-        comment
-    ])
+    const addComment = (comment: UserComment) => {
+        setComments([
+            ...comments,
+            comment
+        ])
+    }
 
     return (
         <div className='grid gap-4'>
-            {state.map(comment => {
+            {comments.map(comment => {
                 const replies = comment.replies
 
                 return (

@@ -22,9 +22,18 @@ export default function FormComponent({
         }
 
         if (comment) {
-            data.updateState(comment)
+            let nextID = 4
+
+            data.updateState({
+                id: nextID++,
+                content: comment as string,
+                createdAt: "now",
+                score: 0,
+                user: currentUser,
+                replies: []
+            })
+
             input.value = ''
-            
             return
         }
 
