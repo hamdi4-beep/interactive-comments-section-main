@@ -5,6 +5,7 @@ import Comment from './Comment'
 
 import { 
     Context,
+    UserComment,
     UserReply
  } from '../App'
 
@@ -14,7 +15,10 @@ export default function CommentSection() {
         setComments
     } = React.useContext(Context)
 
-    console.log(comments)
+    const addComment = (comment: UserComment) => setComments([
+        ...comments,
+        comment
+    ])
 
     return (
         <div className='grid gap-4'>
@@ -35,10 +39,7 @@ export default function CommentSection() {
             }
 
             <FormComponent data={{
-                updateComment: (comment: any) => setComments([
-                    ...comments,
-                    comment
-                ]),
+                updateComment: addComment,
                 type: 'Comment'
             }} />
         </div>
