@@ -23,25 +23,18 @@ export default function Comment({
 
     const isCurrentUser = user.username === currentUser?.username
 
-    const handleReply = () => {
-        setIsReplying(!isReplying)
-        
-        if ((data as UserComment).replies) return
-
-        const comment = data as UserComment
-        console.log(comment)
-    }
-
-    const addReply = (newReply: any) => {
+    const addReply = (newReply: UserReply) => {
         const comment = data as UserComment;
-        newReply.replyingTo = comment.user.username;
 
         if (!comment.replies) {
             alert('I have yet to modify the functionality so you can reply to replies. Thank you for your patience!')
             return
         }
 
-        comment.replies.push(newReply)
+        comment.replies.push({
+            ...newReply,
+            replyingTo: comment.user.username
+        })
 
         ctx.setComments(Array.from(new Set([
             ...ctx.comments,
@@ -75,7 +68,7 @@ export default function Comment({
                                 <span className='text-neutral-grayish-blue'>{data.createdAt}</span>
                             </div>
 
-                            <button className="flex items-center gap-3 text-primary-moderate-blue font-bold" onClick={handleReply}>
+                            <button className="flex items-center gap-3 text-primary-moderate-blue font-bold" onClick={() => setIsReplying(!isReplying)}>
                                 <img src="/interactive-comments-section-main/assets/images/icon-reply.svg" alt="" />
                                 Reply
                             </button>
