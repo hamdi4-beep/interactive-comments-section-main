@@ -1,5 +1,9 @@
 import * as React from 'react'
-import { Context, currentUser } from "./CommentSection"
+
+import {
+    currentUser,
+    comments
+} from '../App'
 
 let nextID = 3
 
@@ -11,8 +15,6 @@ export default function FormComponent({
         type: string
     }
 }) {
-    const ctx = React.useContext(Context)
-
     const placeholder = {
         Comment: ['Add comment...', 'Comment'],
         Reply: ['Add reply...', 'Reply']
@@ -44,7 +46,7 @@ export default function FormComponent({
             }
 
             data.updateComments([
-                ...ctx.comments,
+                comments,
                 newComment
             ])
 

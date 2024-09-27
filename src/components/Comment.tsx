@@ -2,8 +2,12 @@ import * as React from 'react'
 
 import FormComponent from './FormComponent'
 
-import { currentUser, UserComment, UserReply } from './CommentSection'
-import { CommentOrReply } from './CommentSection'
+import {
+    currentUser,
+    UserComment,
+    UserReply,
+    CommentOrReply
+} from '../App'
 
 export default function Comment({
     data
