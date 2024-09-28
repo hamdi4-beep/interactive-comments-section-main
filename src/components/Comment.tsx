@@ -4,10 +4,8 @@ import FormComponent from './FormComponent'
 
 import {
     currentUser,
-    UserComment,
     UserReply,
-    CommentOrReply,
-    Context
+    CommentOrReply
 } from '../App'
 
 export default function Comment({
@@ -16,32 +14,11 @@ export default function Comment({
     data: CommentOrReply
 }) {
     const [isReplying, setIsReplying] = React.useState(false)
-    const ctx = React.useContext(Context)
 
     const { user } = data
     const reply = data as UserReply
 
     const isCurrentUser = user.username === currentUser?.username
-
-    const addReply = (newReply: UserReply) => {
-        const comment = data as UserComment;
-        const replies = comment.replies
-
-        if (!replies) {
-            alert('I have yet to modify the functionality so you can reply to replies. Thank you for your patience!')
-            return
-        }
-
-        replies.push({
-            ...newReply,
-            replyingTo: comment.user.username
-        })
-
-        ctx.setComments(Array.from(new Set([
-            ...ctx.comments,
-            comment
-        ])))
-    }
 
     return (
         <div className='comment'>
@@ -88,7 +65,7 @@ export default function Comment({
 
             {isReplying && (
                 <FormComponent data={{
-                    updateComment: addReply,
+                    comment: data,
                     type: 'Reply'
                 }} />
             )}

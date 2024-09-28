@@ -1,7 +1,11 @@
 import * as React from 'react'
 
 import {
-    currentUser
+    currentUser,
+    Context,
+    CommentOrReply,
+    UserComment,
+    UserReply
 } from '../App'
 
 let nextID = 3
@@ -10,10 +14,12 @@ export default function FormComponent({
     data
 }: {
     data: {
-        updateComment: Function
         type: string
+        comment?: CommentOrReply
     }
 }) {
+    const ctx = React.useContext(Context)
+
     const placeholder = {
         Comment: ['Add comment...', 'Comment'],
         Reply: ['Add reply...', 'Reply']
@@ -30,15 +36,34 @@ export default function FormComponent({
         const input = form['comment']
         input.value = ''
 
-        if (data.type === 'Reply') {
-            data.updateComment({
+        console.log(data)
+
+        if ((data.comment as UserReply).replyingTo) {
+            alert('The feature to reply to replies is currently being developed.')
+            return
+        }
+
+        if (data.comment) {
+            const updatedComment = {
                 id: nextID++,
                 content: value as string,
                 createdAt: "now",
                 score: 0,
-                user: currentUser,
-                replyingTo: ''
+                user: currentUser
+            }
+
+            const comment = data.comment as UserComment
+            const user = comment.user
+
+            comment.replies.push({
+                ...updatedComment,
+                replyingTo: user.username
             })
+
+            ctx.setComments(Array.from(new Set([
+                ...ctx.comments,
+                comment
+            ])))
 
             return
         }
@@ -53,7 +78,10 @@ export default function FormComponent({
                 replies: []
             }
 
-            data.updateComment(newComment)
+            ctx.setComments([
+                ...ctx.comments,
+                newComment
+            ])
 
             return
         }
