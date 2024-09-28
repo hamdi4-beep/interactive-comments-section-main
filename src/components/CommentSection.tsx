@@ -17,7 +17,6 @@ export default function CommentSection({
     comments: UserComment[]
 }) {
     const [state, setState] = React.useState(comments)
-    console.log(state)
 
     return (
         <div className='grid gap-4'>
@@ -29,10 +28,15 @@ export default function CommentSection({
                         <Comment
                             data={comment}
                             updateComment={(reply: UserReply) => {
-                                const replies = comment.replies
-                                replies.push(reply)
+                                replies.push({
+                                    ...reply,
+                                    id: nextID++
+                                })
 
-                                console.log('Added a reply!')
+                                setState(Array.from(new Set([
+                                    ...state,
+                                    comment
+                                ])))
                             }}
                         />
 
@@ -62,8 +66,6 @@ export default function CommentSection({
                         user: currentUser,
                         replies: []
                     }
-
-                    console.log('Could this be running instead?')
 
                     setState([
                         ...state,
