@@ -59,10 +59,12 @@ export default function FormComponent({
                 ...ctx.comments,
                 newComment
             ])
+
+            return
         }
 
-        if (!comment.replies) {
-            alert('The feature to reply to replies is currently being developed.')
+        if (!comment?.replies) {
+            alert('The functionality to reply to other replies is currently being developed')
             return
         }
 
@@ -75,8 +77,9 @@ export default function FormComponent({
         }
 
         const user = comment.user
+        const replies = comment.replies
 
-        comment.replies.push({
+        replies.push({
             ...reply,
             replyingTo: user.username
         })
