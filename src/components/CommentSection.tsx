@@ -1,16 +1,49 @@
-import * as React from 'react'
-
 import FormComponent from './FormComponent'
 import Comment from './Comment'
 
-import { 
-    Context,
-    UserReply
+import {
+    currentUser
  } from '../App'
 
-export default function CommentSection() {
-    const {comments} = React.useContext(Context)
+export type UserComment = {
+    id: number;
+    content: string;
+    createdAt: string;
+    score: number;
+    user: {
+        image: {
+            png: string;
+            webp: string;
+        };
+        username: string;
+    };
+    replies: {
+        id: number;
+        content: string;
+        createdAt: string;
+        score: number;
+        replyingTo: string;
+        user: {
+            image: {
+            png: string;
+            webp: string;
+        };
+            username: string;
+        };
+    }[];
+}
 
+export type UserReply = UserComment['replies'][0]
+
+export type CommentOrReply = 
+    | UserComment
+    | UserReply
+
+export default function CommentSection({
+    comments
+}: {
+    comments: UserComment[]
+}) {
     return (
         <div className='grid gap-4'>
             {comments.map((comment, i) => {
@@ -25,7 +58,18 @@ export default function CommentSection() {
             }
 
             <FormComponent data={{
-                type: 'Comment'
+                type: 'Comment',
+                createComment(formValue: string) {
+                    const comment = {
+                        content: formValue,
+                        createdAt: "now",
+                        score: 0,
+                        user: currentUser,
+                        replies: []
+                    }
+
+                    return comment
+                }
             }} />
         </div>
     )
@@ -34,7 +78,7 @@ export default function CommentSection() {
 const RepliesList = ({
     replies
 }: {
-    replies: UserReply[]
+    replies: UserComment['replies']
 }) => (
     <div className='grid gap-4 p-4 pr-0 ml-14'>
         {replies.map((reply, i) => (

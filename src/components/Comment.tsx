@@ -1,12 +1,12 @@
 import * as React from 'react'
 
 import FormComponent from './FormComponent'
+import { currentUser } from '../App'
 
 import {
-    currentUser,
     UserReply,
     CommentOrReply
-} from '../App'
+} from './CommentSection'
 
 export default function Comment({
     data
@@ -65,8 +65,18 @@ export default function Comment({
 
             {isReplying && (
                 <FormComponent data={{
-                    comment: data,
-                    type: 'Reply'
+                    type: 'Reply',
+                    createComment: (reply: string) => {
+                        const comment = {
+                            content: reply,
+                            createdAt: "now",
+                            score: 0,
+                            user: currentUser,
+                            repyingTo: data.user.username
+                        }
+
+                        return comment
+                    }
                 }} />
             )}
         </div>

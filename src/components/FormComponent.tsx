@@ -1,10 +1,7 @@
 import * as React from 'react'
 
 import {
-    currentUser,
-    Context,
-    CommentOrReply,
-    UserComment
+    currentUser
 } from '../App'
 
 let nextID = 3
@@ -14,11 +11,9 @@ export default function FormComponent({
 }: {
     data: {
         type: 'Comment' | 'Reply'
-        comment?: CommentOrReply
+        createComment: Function
     }
 }) {
-    const ctx = React.useContext(Context)
-
     const placeholder = {
         Comment: ['Add comment...', 'Comment'],
         Reply: ['Add reply...', 'Reply']
@@ -28,8 +23,6 @@ export default function FormComponent({
 
     const getPlaceholder = (label: 'Comment' | 'Reply') => placeholder[label]
     const [text, label] = getPlaceholder(data.type)
-
-    const comment = data.comment as UserComment
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -45,49 +38,12 @@ export default function FormComponent({
             return
         }
 
-        const reply = {
+        const comment = data.createComment(value)
+
+        console.log({
             id: nextID++,
-            content: value as string,
-            createdAt: "now",
-            score: 0,
-            user: currentUser
-        }
-
-        if (data.type === 'Comment') {
-            const newComment = {
-                id: nextID++,
-                content: value as string,
-                createdAt: "now",
-                score: 0,
-                user: currentUser,
-                replies: []
-            }
-
-            ctx.setComments([
-                ...ctx.comments,
-                newComment
-            ])
-
-            return
-        }
-
-        if (!comment?.replies) {
-            alert('The functionality to reply to other replies is currently under development.')
-            return
-        }
-
-        const user = comment.user
-        const replies = comment.replies
-
-        replies.push({
-            ...reply,
-            replyingTo: user.username
+            ...comment
         })
-
-        ctx.setComments(Array.from(new Set([
-            ...ctx.comments,
-            comment
-        ])))
     }
 
     return (
