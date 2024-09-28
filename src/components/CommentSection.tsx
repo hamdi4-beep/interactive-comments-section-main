@@ -27,7 +27,7 @@ export default function CommentSection({
                     <div key={i}>
                         <Comment
                             data={comment}
-                            updateComment={(reply: UserReply) => {
+                            createComment={(reply: UserReply) => {
                                 replies.push({
                                     ...reply,
                                     id: nextID++
@@ -45,7 +45,7 @@ export default function CommentSection({
                                 {replies.map((reply, i) => (
                                     <Comment
                                         data={reply}
-                                        updateComment={() => alert('The functionality to reply to other replies is currently being developed.')}
+                                        createComment={() => alert('The functionality to reply to other replies is currently being developed.')}
                                         key={i}
                                     />
                                 ))}
@@ -57,7 +57,7 @@ export default function CommentSection({
 
             <FormComponent data={{
                 type: 'Comment',
-                createComment(formValue: string) {
+                updateComments(formValue: string) {
                     const comment = {
                         id: nextID++,
                         content: formValue,

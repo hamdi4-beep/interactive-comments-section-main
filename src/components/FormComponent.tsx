@@ -9,7 +9,7 @@ export default function FormComponent({
 }: {
     data: {
         type: 'Comment' | 'Reply'
-        createComment: Function
+        updateComments: Function
     }
 }) {
     const placeholder = {
@@ -36,7 +36,7 @@ export default function FormComponent({
             return
         }
 
-        data.createComment(value)
+        data.updateComments(value)
     }
 
     return (

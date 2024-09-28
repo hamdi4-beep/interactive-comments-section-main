@@ -9,10 +9,10 @@ import {
 
 export default function Comment({
     data,
-    updateComment
+    createComment
 }: {
     data: CommentOrReply
-    updateComment: Function
+    createComment: Function
 }) {
     const [isReplying, setIsReplying] = React.useState(false)
 
@@ -67,16 +67,16 @@ export default function Comment({
             {isReplying && (
                 <FormComponent data={{
                     type: 'Reply',
-                    createComment: (reply: string) => {
+                    updateComments: (reply: string) => {
                         const comment = {
                             content: reply,
                             createdAt: "now",
                             score: 0,
                             user: currentUser,
-                            replyingTo: data.user.username
+                            replyingTo: user.username
                         }
 
-                        updateComment(comment)
+                        createComment(comment)
                     }
                 }} />
             )}
