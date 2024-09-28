@@ -7,6 +7,8 @@ import {
     UserReply
 } from '../App'
 
+let nextID = 3
+
 export default function Comment({
     data,
     updateComment
@@ -69,11 +71,12 @@ export default function Comment({
                     type: 'Reply',
                     createComment: (reply: string) => {
                         const comment = {
+                            id: nextID++,
                             content: reply,
                             createdAt: "now",
                             score: 0,
                             user: currentUser,
-                            repyingTo: data.user.username
+                            replyingTo: data.user.username
                         }
 
                         updateComment(comment)

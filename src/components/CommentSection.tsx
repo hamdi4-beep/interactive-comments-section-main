@@ -28,14 +28,11 @@ export default function CommentSection({
                     <div key={i}>
                         <Comment
                             data={comment}
-                            updateComment={(updatedComment: UserReply) => {
+                            updateComment={(reply: UserReply) => {
                                 const replies = comment.replies
-                                replies.push(updatedComment)
+                                replies.push(reply)
 
-                                setState(Array.from(new Set([
-                                    ...state,
-                                    comment
-                                ])))
+                                console.log('Added a reply!')
                             }}
                         />
 
@@ -65,6 +62,8 @@ export default function CommentSection({
                         user: currentUser,
                         replies: []
                     }
+
+                    console.log('Could this be running instead?')
 
                     setState([
                         ...state,
