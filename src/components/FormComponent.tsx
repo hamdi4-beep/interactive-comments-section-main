@@ -45,6 +45,14 @@ export default function FormComponent({
             return
         }
 
+        const reply = {
+            id: nextID++,
+            content: value as string,
+            createdAt: "now",
+            score: 0,
+            user: currentUser
+        }
+
         if (data.type === 'Comment') {
             const newComment = {
                 id: nextID++,
@@ -64,16 +72,8 @@ export default function FormComponent({
         }
 
         if (!comment?.replies) {
-            alert('The functionality to reply to other replies is currently being developed')
+            alert('The functionality to reply to other replies is currently under development.')
             return
-        }
-
-        const reply = {
-            id: nextID++,
-            content: value as string,
-            createdAt: "now",
-            score: 0,
-            user: currentUser
         }
 
         const user = comment.user

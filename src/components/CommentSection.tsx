@@ -4,7 +4,8 @@ import FormComponent from './FormComponent'
 import Comment from './Comment'
 
 import { 
-    Context
+    Context,
+    UserReply
  } from '../App'
 
 export default function CommentSection() {
@@ -17,20 +18,8 @@ export default function CommentSection() {
 
                 return (
                     <div key={i}>
-                        <Comment
-                            data={comment}
-                        />
-                        
-                        {replies.length > 0 && (
-                            <div className='grid gap-4 p-4 pr-0 ml-14'>
-                                {replies.map((reply, i) => (
-                                    <Comment
-                                        data={reply}
-                                        key={i}
-                                    />
-                                ))}
-                            </div>
-                        )}
+                        <Comment data={comment} />
+                        {replies.length > 0 && <RepliesList replies={replies} />}
                     </div>
                 )})
             }
@@ -41,3 +30,18 @@ export default function CommentSection() {
         </div>
     )
 }
+
+const RepliesList = ({
+    replies
+}: {
+    replies: UserReply[]
+}) => (
+    <div className='grid gap-4 p-4 pr-0 ml-14'>
+        {replies.map((reply, i) => (
+            <Comment
+                data={reply}
+                key={i}
+            />
+        ))}
+    </div>
+)
