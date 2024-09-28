@@ -4,8 +4,7 @@ import {
     currentUser,
     Context,
     CommentOrReply,
-    UserComment,
-    UserReply
+    UserComment
 } from '../App'
 
 let nextID = 3
@@ -30,6 +29,8 @@ export default function FormComponent({
     const getPlaceholder = (label: 'Comment' | 'Reply') => placeholder[label]
     const [text, label] = getPlaceholder(data.type)
 
+    const comment = data.comment as UserComment
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
@@ -39,39 +40,12 @@ export default function FormComponent({
         const input = form['comment']
         input.value = ''
 
-        console.log(data)
-
-        if ((data.comment as UserReply).replyingTo) {
-            alert('The feature to reply to replies is currently being developed.')
+        if (!value) {
+            alert('Please add a comment!')
             return
         }
 
-        if (data.comment) {
-            const updatedComment = {
-                id: nextID++,
-                content: value as string,
-                createdAt: "now",
-                score: 0,
-                user: currentUser
-            }
-
-            const comment = data.comment as UserComment
-            const user = comment.user
-
-            comment.replies.push({
-                ...updatedComment,
-                replyingTo: user.username
-            })
-
-            ctx.setComments(Array.from(new Set([
-                ...ctx.comments,
-                comment
-            ])))
-
-            return
-        }
-
-        if (value) {
+        if (data.type === 'Comment') {
             const newComment = {
                 id: nextID++,
                 content: value as string,
@@ -85,11 +59,32 @@ export default function FormComponent({
                 ...ctx.comments,
                 newComment
             ])
+        }
 
+        if (!comment.replies) {
+            alert('The feature to reply to replies is currently being developed.')
             return
         }
 
-        alert('Please add a comment!')
+        const reply = {
+            id: nextID++,
+            content: value as string,
+            createdAt: "now",
+            score: 0,
+            user: currentUser
+        }
+
+        const user = comment.user
+
+        comment.replies.push({
+            ...reply,
+            replyingTo: user.username
+        })
+
+        ctx.setComments(Array.from(new Set([
+            ...ctx.comments,
+            comment
+        ])))
     }
 
     return (
