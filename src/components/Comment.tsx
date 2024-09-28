@@ -1,17 +1,18 @@
 import * as React from 'react'
-
 import FormComponent from './FormComponent'
-import { currentUser } from '../App'
 
 import {
-    UserReply,
-    CommentOrReply
-} from './CommentSection'
+    currentUser,
+    CommentOrReply,
+    UserReply
+} from '../App'
 
 export default function Comment({
-    data
+    data,
+    updateComment
 }: {
     data: CommentOrReply
+    updateComment: Function
 }) {
     const [isReplying, setIsReplying] = React.useState(false)
 
@@ -75,7 +76,7 @@ export default function Comment({
                             repyingTo: data.user.username
                         }
 
-                        return comment
+                        updateComment(comment)
                     }
                 }} />
             )}

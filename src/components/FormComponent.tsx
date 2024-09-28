@@ -4,8 +4,6 @@ import {
     currentUser
 } from '../App'
 
-let nextID = 3
-
 export default function FormComponent({
     data
 }: {
@@ -38,12 +36,7 @@ export default function FormComponent({
             return
         }
 
-        const comment = data.createComment(value)
-
-        console.log({
-            id: nextID++,
-            ...comment
-        })
+        data.createComment(value)
     }
 
     return (
