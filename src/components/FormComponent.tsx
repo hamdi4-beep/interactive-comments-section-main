@@ -14,7 +14,7 @@ export default function FormComponent({
     data
 }: {
     data: {
-        type: string
+        type: 'Comment' | 'Reply'
         comment?: CommentOrReply
     }
 }) {
@@ -26,6 +26,9 @@ export default function FormComponent({
     } as {
         [key: string]: string[]
     }
+
+    const getPlaceholder = (label: 'Comment' | 'Reply') => placeholder[label]
+    const [text, label] = getPlaceholder(data.type)
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -104,12 +107,12 @@ export default function FormComponent({
                     type="text"
                     className='p-4 pt-2 pb-20 w-full border border-[hsl(223, 19%, 93%)] outline-none rounded-md'
                     name="comment"
-                    placeholder={placeholder[data.type][0]}
+                    placeholder={text}
                 />
                 
                 <button
                     className='bg-primary-moderate-blue p-2 px-4 mt-4 rounded-md text-white uppercase'
-                >{placeholder[data.type][1]}</button>
+                >{label}</button>
             </form>
         </div>
     )
