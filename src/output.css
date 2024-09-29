@@ -554,10 +554,6 @@ video {
   display: none;
 }
 
-.-mt-4 {
-  margin-top: -1rem;
-}
-
 .ml-14 {
   margin-left: 3.5rem;
 }
@@ -576,10 +572,6 @@ video {
 
 .h-10 {
   height: 2.5rem;
-}
-
-.h-12 {
-  height: 3rem;
 }
 
 .w-10 {
@@ -680,6 +672,10 @@ video {
   padding-bottom: 0.75rem;
 }
 
+.pb-0 {
+  padding-bottom: 0px;
+}
+
 .pb-20 {
   padding-bottom: 5rem;
 }
@@ -737,4 +733,8 @@ body {
   display: grid;
   place-content: center;
   min-height: 100vh;
+}
+
+.comment > .form-component {
+  margin-top: -1em;
 }

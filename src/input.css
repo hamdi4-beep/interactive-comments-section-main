@@ -8,3 +8,7 @@ body {
     place-content: center;
     min-height: 100vh;
 }
+
+.comment > .form-component {
+    margin-top: -1em;
+}
