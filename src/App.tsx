@@ -16,23 +16,12 @@ export type UserComment = {
       };
       username: string;
   };
-  replies: {
-      id: number;
-      content: string;
-      createdAt: string;
-      score: number;
-      replyingTo: string;
-      user: {
-          image: {
-          png: string;
-          webp: string;
-      };
-          username: string;
-      };
-  }[];
+  replies: UserReply[];
 }
 
-export type UserReply = UserComment['replies'][0]
+export type UserReply = Omit<UserComment, "replies"> & {
+  replyingTo: string
+}
 
 export type CommentOrReply = 
   | UserComment
