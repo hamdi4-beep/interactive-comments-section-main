@@ -24,7 +24,6 @@ export type UserReply = Omit<UserComment, "replies"> & {
 }
 
 function App() {
-
   return (
     <div className="max-w-xl">
       <CommentSection comments={comments} />

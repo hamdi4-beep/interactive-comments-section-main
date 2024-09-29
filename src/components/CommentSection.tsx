@@ -20,6 +20,25 @@ export default function CommentSection({
 
     return (
         <div className='comments-section grid gap-4'>
+            <FormComponent data={{
+                type: 'Comment',
+                updateComments(commentValue: string) {
+                    const comment = {
+                        id: nextID++,
+                        content: commentValue,
+                        createdAt: "now",
+                        score: 0,
+                        user: currentUser,
+                        replies: []
+                    }
+
+                    setUserComments([
+                        ...comments,
+                        comment
+                    ])
+                }
+            }} />
+
             {userComments.map((comment, i) => {
                 const replies = comment.replies
 
@@ -53,25 +72,6 @@ export default function CommentSection({
                     </Comment>
                 )})
             }
-
-            <FormComponent data={{
-                type: 'Comment',
-                updateComments(commentValue: string) {
-                    const comment = {
-                        id: nextID++,
-                        content: commentValue,
-                        createdAt: "now",
-                        score: 0,
-                        user: currentUser,
-                        replies: []
-                    }
-
-                    setUserComments([
-                        ...userComments,
-                        comment
-                    ])
-                }
-            }} />
         </div>
     )
 }
