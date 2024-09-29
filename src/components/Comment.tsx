@@ -25,7 +25,7 @@ export default function Comment({
     const isCurrentUser = user.username === currentUser?.username
 
     return (
-        <div>
+        <div className='comment-wrapper'>
             <div className='comment'>
                 <div className="bg-white rounded-xl p-4">
                     <div className="flex gap-4">

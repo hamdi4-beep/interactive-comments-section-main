@@ -40,7 +40,7 @@ export default function FormComponent({
     }
 
     return (
-        <div className="bg-white rounded-xl p-4 mt-4 flex gap-4 items-start">
+        <div className="bg-white rounded-xl p-4 -mt-4 flex gap-4 items-start">
             <div className="user-img self-start flex-shrink-0">
                 <img
                     src={currentUser.image.png}
