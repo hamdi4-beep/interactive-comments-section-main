@@ -14,7 +14,7 @@ export default function FormComponent({
 }) {
     const placeholder = {
         Comment: ['Add comment...', 'Comment'],
-        Reply: ['Add reply...', 'Reply']
+        Reply: ['Add reply...', 'Send']
     } as {
         [key: string]: string[]
     }
