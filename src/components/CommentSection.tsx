@@ -16,59 +16,46 @@ export default function CommentSection({
 }: {
     comments: UserComment[]
 }) {
-    const [state, setState] = React.useState(comments)
+    const [userComments, setUserComments] = React.useState(comments)
 
     return (
         <div className='grid gap-4'>
-            {state.map((comment, i) => {
+            {userComments.map((comment, i) => {
                 const replies = comment.replies
 
                 return (
-                    <div key={i}>
-                        <Comment
-                            data={comment}
-                            createComment={(reply: UserReply) => {
-                                replies.push({
-                                    ...reply,
-                                    id: nextID++
-                                })
+                    <Comment
+                        data={comment}
+                        updateComment={(reply: UserReply) => {
+                            replies.push({
+                                ...reply,
+                                id: nextID++
+                            })
 
-                                setState(Array.from(new Set([
-                                    ...state,
-                                    comment
-                                ])))
-                            }}
-                        />
-
-                        {replies.length > 0 && (
-                            <div className='grid gap-4 p-4 pr-0 ml-14'>
-                                {replies.map((reply, i) => (
-                                    <Comment
-                                        data={reply}
-                                        createComment={() => alert('The functionality to reply to other replies is currently being developed.')}
-                                        key={i}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                            setUserComments(Array.from(new Set([
+                                ...userComments,
+                                comment
+                            ])))
+                        }}
+                        key={i}
+                    />
                 )})
             }
 
             <FormComponent data={{
                 type: 'Comment',
-                updateComments(formValue: string) {
+                updateComments(commentValue: string) {
                     const comment = {
                         id: nextID++,
-                        content: formValue,
+                        content: commentValue,
                         createdAt: "now",
                         score: 0,
                         user: currentUser,
                         replies: []
                     }
 
-                    setState([
-                        ...state,
+                    setUserComments([
+                        ...userComments,
                         comment
                     ])
                 }
