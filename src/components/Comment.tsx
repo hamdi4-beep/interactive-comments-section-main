@@ -3,7 +3,7 @@ import FormComponent from './FormComponent'
 
 import {
     currentUser,
-    CommentOrReply,
+    UserComment,
     UserReply
 } from '../App'
 
@@ -12,7 +12,7 @@ export default function Comment({
     data,
     updateComment
 }: {
-    data: CommentOrReply
+    data: UserComment | UserReply
     updateComment: Function,
     children?: React.ReactNode
 }) {

@@ -23,10 +23,6 @@ export type UserReply = Omit<UserComment, "replies"> & {
   replyingTo: string
 }
 
-export type CommentOrReply = 
-  | UserComment
-  | UserReply
-
 function App() {
 
   return (
