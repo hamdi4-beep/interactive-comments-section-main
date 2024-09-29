@@ -38,7 +38,19 @@ export default function CommentSection({
                             ])))
                         }}
                         key={i}
-                    />
+                    >
+                        {replies?.length > 0 && (
+                            <div className='grid gap-4 p-4 pr-0 ml-14'>
+                                {replies.map((reply, i) => (
+                                    <Comment
+                                        data={reply}
+                                        updateComment={() => alert('The reply to replies functionality is currently being developed.')}
+                                        key={i}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </Comment>
                 )})
             }
 

@@ -4,22 +4,21 @@ import FormComponent from './FormComponent'
 import {
     currentUser,
     CommentOrReply,
-    UserReply,
-    UserComment
+    UserReply
 } from '../App'
 
 export default function Comment({
+    children,
     data,
     updateComment
 }: {
     data: CommentOrReply
-    updateComment: Function
+    updateComment: Function,
+    children?: React.ReactNode
 }) {
     const [isReplying, setIsReplying] = React.useState(false)
 
     const { user } = data
-
-    const replies = (data as UserComment)?.replies
     const reply = data as UserReply
 
     const isCurrentUser = user.username === currentUser?.username
@@ -86,17 +85,7 @@ export default function Comment({
                 )}
             </div>
 
-            {replies?.length > 0 && (
-                <div className='grid gap-4 p-4 pr-0 ml-14'>
-                    {replies.map((reply, i) => (
-                        <Comment
-                            data={reply}
-                            updateComment={() => alert('The functionality to reply to other replies is currently being developed.')}
-                            key={i}
-                        />
-                    ))}
-                </div>
-            )}
+            {children}
         </div>
     )
 }
