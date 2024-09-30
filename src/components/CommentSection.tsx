@@ -59,19 +59,7 @@ export default function CommentSection({
                         data={comment}
                         updateComment={addReply}
                         key={i}
-                    >
-                        {replies?.length > 0 && (
-                            <div className='grid gap-4 p-4 pr-0 pb-0 ml-14'>
-                                {replies.map((reply, i) => (
-                                    <Comment
-                                        data={reply}
-                                        updateComment={addReply}
-                                        key={i}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </Comment>
+                    />
                 )})
             }
         </div>

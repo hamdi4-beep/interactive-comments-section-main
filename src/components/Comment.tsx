@@ -9,19 +9,20 @@ import {
 
 export default function Comment({
     updateComment,
-    children,
     data
 }: {
     updateComment: Function,
-    children?: React.ReactNode
     data: UserComment | UserReply
 }) {
     const [isReplying, setIsReplying] = React.useState(false)
 
     const { user } = data
-    const reply = data as UserReply
 
     const isCurrentUser = user.username === currentUser?.username
+    console.log(updateComment)
+
+    const replies = (data as UserComment).replies
+    const reply = data as UserReply
 
     return (
         <div className='comment-wrapper'>
@@ -85,7 +86,17 @@ export default function Comment({
                 )}
             </div>
 
-            {children}
+            {replies?.length > 0 && (
+                <div className='grid gap-4 p-4 pr-0 pb-0 ml-14'>
+                    {replies.map((reply, i) => (
+                        <Comment
+                            data={reply}
+                            updateComment={updateComment}
+                            key={i}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
