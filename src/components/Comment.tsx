@@ -80,6 +80,8 @@ export default function Comment({
                                 replyingTo: user.username
                             }
 
+                            setIsReplying(false)
+
                             updateComment(reply)
                         }
                     }} />
