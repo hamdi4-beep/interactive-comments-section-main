@@ -32,10 +32,7 @@ export default function CommentSection({
                         replies: [] as UserReply[]
                     }
 
-                    setUserComments([
-                        ...comments,
-                        comment
-                    ])
+                    setUserComments(prev => [...prev, comment])
                 }
             }} />
 
