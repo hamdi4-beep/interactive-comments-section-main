@@ -42,20 +42,22 @@ export default function CommentSection({
             {userComments.map((comment, i) => {
                 const replies = comment.replies
 
+                const addReply = (reply: UserReply) => {
+                    replies.push({
+                        ...reply,
+                        id: nextID++
+                    })
+
+                    setUserComments(Array.from(new Set([
+                        ...userComments,
+                        comment
+                    ])))
+                }
+
                 return (
                     <Comment
                         data={comment}
-                        updateComment={(reply: UserReply) => {
-                            replies.push({
-                                ...reply,
-                                id: nextID++
-                            })
-
-                            setUserComments(Array.from(new Set([
-                                ...userComments,
-                                comment
-                            ])))
-                        }}
+                        updateComment={addReply}
                         key={i}
                     >
                         {replies?.length > 0 && (
@@ -63,7 +65,7 @@ export default function CommentSection({
                                 {replies.map((reply, i) => (
                                     <Comment
                                         data={reply}
-                                        updateComment={() => alert('The reply to replies functionality is currently being developed.')}
+                                        updateComment={addReply}
                                         key={i}
                                     />
                                 ))}
