@@ -15,11 +15,9 @@ export default function Comment({
     data: UserComment | UserReply
 }) {
     const [isReplying, setIsReplying] = React.useState(false)
-
     const { user } = data
 
     const isCurrentUser = user.username === currentUser?.username
-    console.log(updateComment)
 
     const replies = (data as UserComment).replies
     const reply = data as UserReply
