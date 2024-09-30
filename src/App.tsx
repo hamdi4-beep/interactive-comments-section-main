@@ -23,6 +23,10 @@ export type UserReply = Omit<UserComment, "replies"> & {
   replyingTo: string
 }
 
+export type FormLabels =
+  | 'Reply'
+  | 'Comment'
+
 function App() {
   return (
     <div className="max-w-xl">

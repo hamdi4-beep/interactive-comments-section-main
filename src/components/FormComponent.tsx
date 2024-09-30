@@ -1,7 +1,8 @@
 import * as React from 'react'
 
 import {
-    currentUser
+    currentUser,
+    FormLabels
 } from '../App'
 
 export default function FormComponent({
@@ -9,7 +10,7 @@ export default function FormComponent({
 }: {
     data: {
         updateComments: Function
-        type: 'Comment' | 'Reply'
+        type: FormLabels
     }
 }) {
     const labels = {
@@ -17,7 +18,7 @@ export default function FormComponent({
         Reply: ['Add reply...', 'Send']
     }
 
-    const getLabels = (label: 'Comment' | 'Reply') => labels[label]
+    const getLabels = (label: FormLabels) => labels[label]
     const [text, label] = getLabels(data.type)
 
     const handleSubmit = (e: React.FormEvent) => {
