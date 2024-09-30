@@ -19,7 +19,7 @@ export default function CommentSection({
     const [userComments, setUserComments] = React.useState(comments)
 
     return (
-        <div className='comments-section grid gap-4'>
+        <div className='comments-section p-4 grid gap-4'>
             <FormComponent data={{
                 type: 'Comment',
                 updateComments(commentValue: string) {
@@ -29,7 +29,7 @@ export default function CommentSection({
                         createdAt: "now",
                         score: 0,
                         user: currentUser,
-                        replies: []
+                        replies: [] as UserReply[]
                     }
 
                     setUserComments([

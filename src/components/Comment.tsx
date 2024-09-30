@@ -8,13 +8,13 @@ import {
 } from '../App'
 
 export default function Comment({
+    updateComment,
     children,
-    data,
-    updateComment
+    data
 }: {
-    data: UserComment | UserReply
     updateComment: Function,
     children?: React.ReactNode
+    data: UserComment | UserReply
 }) {
     const [isReplying, setIsReplying] = React.useState(false)
 
@@ -27,7 +27,7 @@ export default function Comment({
         <div className='comment-wrapper'>
             <div className='comment'>
                 <div className="bg-white rounded-xl p-4">
-                    <div className="flex gap-4">
+                    <div className="items-list flex gap-4">
                         <ScoreComponent defaultScore={data.score} />
 
                         <div className='w-full'>
@@ -50,7 +50,7 @@ export default function Comment({
                                     <span className='text-neutral-grayish-blue'>{data.createdAt}</span>
                                 </div>
 
-                                <button className="flex items-center gap-3 text-primary-moderate-blue font-bold" onClick={() => setIsReplying(!isReplying)}>
+                                <button className="reply-btn flex items-center gap-3 text-primary-moderate-blue font-bold" onClick={() => setIsReplying(!isReplying)}>
                                     <img src="/interactive-comments-section-main/assets/images/icon-reply.svg" alt="" />
                                     Reply
                                 </button>
@@ -101,7 +101,7 @@ const ScoreComponent = ({
     const handleDecreaseClick = () => score > 0 && setScore(score - 1)
 
     return (
-        <div className="bg-[#eee] grid text-center p-2 rounded-lg self-start w-12">
+        <div className="score-component bg-[#eee] grid text-center p-2 rounded-lg self-start w-12">
             <button className="text-neutral-grayish-blue" onClick={handleIncreaseClick}>+</button>
             <span className='text-primary-moderate-blue font-bold py-3'>{score}</span>
             <button onClick={handleDecreaseClick}>-</button>

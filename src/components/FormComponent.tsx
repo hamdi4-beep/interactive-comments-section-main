@@ -8,19 +8,17 @@ export default function FormComponent({
     data
 }: {
     data: {
-        type: 'Comment' | 'Reply'
         updateComments: Function
+        type: 'Comment' | 'Reply'
     }
 }) {
-    const placeholder = {
+    const labels = {
         Comment: ['Add comment...', 'Comment'],
         Reply: ['Add reply...', 'Send']
-    } as {
-        [key: string]: string[]
     }
 
-    const getPlaceholder = (label: 'Comment' | 'Reply') => placeholder[label]
-    const [text, label] = getPlaceholder(data.type)
+    const getLabels = (label: 'Comment' | 'Reply') => labels[label]
+    const [text, label] = getLabels(data.type)
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()

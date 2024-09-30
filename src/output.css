@@ -738,3 +738,24 @@ body {
 .comment > .form-component {
   margin-top: -1em;
 }
+
+@media screen and (max-width: 500px) {
+  .items-list {
+    position: relative;
+    flex-direction: column-reverse;
+  }
+
+  .reply-btn {
+    position: absolute;
+    bottom: .8em;
+    right: 1em;
+  }
+
+  .score-component {
+    display: flex;
+    gap: 1em;
+    width: 6em;
+    justify-content: center;
+    padding: 0;
+  }
+}
