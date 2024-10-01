@@ -18,14 +18,17 @@ export default function CommentSection({
 }) {
     const [userComments, dispatch] = React.useReducer((state: UserComment[], action: {
         type: string
-        value: UserComment
+        value: UserComment | UserReply
     }) => {
         switch (action.type) {
             case 'createComment':
                 return [
                     ...state,
-                    action.value
+                    action.value as UserComment
                 ]
+
+            case 'replyComment':
+                return [...state]
 
             default:
                 return comments
@@ -54,22 +57,24 @@ export default function CommentSection({
             }} />
 
             {userComments.map((comment, i) => {
+                const replies = comment.replies
 
-                /* const addReply = (reply: UserReply) => {
+                const addReply = (reply: UserReply) => {
                     replies.push({
                         ...reply,
                         id: nextID++
                     })
 
-                    setUserComments(Array.from(new Set([
-                        ...userComments,
-                        comment
-                    ])))
-                } */
+                    dispatch({
+                        type: 'replyComment',
+                        value: comment
+                    })
+                }
 
                 return (
                     <Comment
                         data={comment}
+                        updateComment={addReply}
                         key={i}
                     />
                 )})

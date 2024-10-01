@@ -6,10 +6,13 @@ import {
     UserComment,
     UserReply
 } from '../App'
+import { nextID } from './CommentSection'
 
 export default function Comment({
+    updateComment,
     data
 }: {
+    updateComment: Function
     data: UserComment | UserReply
 }) {
     const [isReplying, setIsReplying] = React.useState(false)
@@ -82,11 +85,13 @@ export default function Comment({
                                 createdAt: "now",
                                 score: 0,
                                 user: currentUser,
-                                replyingTo: user.username
+                                replyingTo: user.username,
+                                id: nextID + 1
                             }
 
-                            setIsReplying(false);
-                            console.log(reply)
+                            setIsReplying(false)
+
+                            updateComment(reply)
                         }
                     }} />
                 )}
@@ -105,6 +110,7 @@ export default function Comment({
                 <div className='grid gap-4 p-4 pr-0 pb-0 ml-14'>
                     {replies.map((reply, i) => (
                         <Comment
+                            updateComment={updateComment}
                             data={reply}
                             key={i}
                         />
