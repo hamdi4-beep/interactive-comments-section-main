@@ -15,7 +15,8 @@ export default function FormComponent({
 }) {
     const labels = {
         Comment: ['Add comment...', 'Comment'],
-        Reply: ['Add reply...', 'Send']
+        Reply: ['Add reply...', 'Send'],
+        Edit: ['Edit reply...', 'Edit']
     }
 
     const getLabels = (label: FormLabels) => labels[label]

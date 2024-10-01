@@ -9,14 +9,28 @@ import {
     UserReply
 } from '../App';
 
-let nextID = 3
+export let nextID = 3
 
 export default function CommentSection({
     comments
 }: {
     comments: UserComment[]
 }) {
-    const [userComments, setUserComments] = React.useState(comments)
+    const [userComments, dispatch] = React.useReducer((state: UserComment[], action: {
+        type: string
+        value: UserComment
+    }) => {
+        switch (action.type) {
+            case 'createComment':
+                return [
+                    ...state,
+                    action.value
+                ]
+
+            default:
+                return comments
+        }
+    }, comments)
 
     return (
         <div className='comments-section p-4 grid gap-4'>
@@ -32,14 +46,16 @@ export default function CommentSection({
                         replies: [] as UserReply[]
                     }
 
-                    setUserComments(prev => [...prev, comment])
+                    dispatch({
+                        type: 'createComment',
+                        value: comment
+                    })
                 }
             }} />
 
             {userComments.map((comment, i) => {
-                const replies = comment.replies
 
-                const addReply = (reply: UserReply) => {
+                /* const addReply = (reply: UserReply) => {
                     replies.push({
                         ...reply,
                         id: nextID++
@@ -49,12 +65,11 @@ export default function CommentSection({
                         ...userComments,
                         comment
                     ])))
-                }
+                } */
 
                 return (
                     <Comment
                         data={comment}
-                        updateComment={addReply}
                         key={i}
                     />
                 )})

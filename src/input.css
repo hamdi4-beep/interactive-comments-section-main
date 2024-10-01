@@ -13,13 +13,13 @@ body {
     margin-top: -1em;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 768px) {
     .items-list {
         position: relative;
         flex-direction: column-reverse;
     }
     
-    .reply-btn {
+    .buttons {
         position: absolute;
         bottom: .8em;
         right: 1em;

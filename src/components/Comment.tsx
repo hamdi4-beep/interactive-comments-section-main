@@ -8,13 +8,13 @@ import {
 } from '../App'
 
 export default function Comment({
-    updateComment,
     data
 }: {
-    updateComment: Function,
     data: UserComment | UserReply
 }) {
     const [isReplying, setIsReplying] = React.useState(false)
+    const [isEditing, setIsEditing] = React.useState(false)
+
     const { user } = data
 
     const isCurrentUser = user.username === currentUser?.username
@@ -49,10 +49,17 @@ export default function Comment({
                                     <span className='text-neutral-grayish-blue'>{data.createdAt}</span>
                                 </div>
 
-                                <button className="reply-btn flex items-center gap-3 text-primary-moderate-blue font-bold" onClick={() => setIsReplying(!isReplying)}>
-                                    <img src="/interactive-comments-section-main/assets/images/icon-reply.svg" alt="" />
-                                    Reply
-                                </button>
+                                <div className="buttons flex gap-4">
+                                    <Btn onClick={() => setIsReplying(!isReplying)}>
+                                        <img src="/interactive-comments-section-main/assets/images/icon-reply.svg" alt="" />
+                                        Reply
+                                    </Btn>
+
+                                    {isCurrentUser && <Btn onClick={() => setIsEditing(!isEditing)}>
+                                        <img src="/interactive-comments-section-main/assets/images/icon-edit.svg" alt="" />
+                                        Edit
+                                    </Btn>}
+                                </div>
                             </div>
 
                             <p className="pt-4">
@@ -78,9 +85,17 @@ export default function Comment({
                                 replyingTo: user.username
                             }
 
-                            setIsReplying(false)
+                            setIsReplying(false);
+                            console.log(reply)
+                        }
+                    }} />
+                )}
 
-                            updateComment(reply)
+                {isEditing && (
+                    <FormComponent data={{
+                        type: 'Edit',
+                        updateComments(edittedValue: string) {
+                            console.log(edittedValue)
                         }
                     }} />
                 )}
@@ -91,7 +106,6 @@ export default function Comment({
                     {replies.map((reply, i) => (
                         <Comment
                             data={reply}
-                            updateComment={updateComment}
                             key={i}
                         />
                     ))}
@@ -119,3 +133,15 @@ const ScoreComponent = ({
         </div>
     )
 }
+
+const Btn = ({
+    children,
+    onClick
+}: {
+    children: React.ReactNode,
+    onClick: () => void
+}) => (
+    <button className='flex items-center gap-3 text-primary-moderate-blue font-bold' onClick={onClick}>
+        {children}
+    </button>
+)

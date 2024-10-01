@@ -26,10 +26,11 @@ export type UserReply = Omit<UserComment, "replies"> & {
 export type FormLabels =
   | 'Reply'
   | 'Comment'
+  | 'Edit'
 
 function App() {
   return (
-    <div className="max-w-xl">
+    <div className="max-w-2xl">
       <CommentSection comments={comments} />
     </div>
   )
