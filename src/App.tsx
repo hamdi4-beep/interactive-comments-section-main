@@ -28,6 +28,73 @@ export type FormLabels =
   | 'comment'
   | 'edit'
 
+export const reducer = (state: UserComment[], action: {
+  type: string
+  value: string
+  comment?: UserComment
+  reply?: any
+}) => {
+  const comment = {
+      id: nextID++,
+      content: action.value,
+      createdAt: "now",
+      score: 0,
+      user: currentUser
+  }
+
+  switch (action.type) {
+      case 'add':
+          const newComment = {
+              ...comment,
+              replies: []
+          }
+
+          return [...state, newComment]
+
+      case 'reply':
+          const userComment = action.comment!
+
+          const reply = {
+              ...comment,
+              replyingTo: userComment.user.username
+          }
+
+          const updateComments = (comment: UserComment) => state.map(it => {
+              const replies = comment.replies
+
+              if (it === comment) {
+                  return {
+                      ...comment,
+                      replies: [
+                          ...replies,
+                          reply
+                      ]
+                  }
+              }
+
+              return it
+          })
+
+          if ((userComment as any as UserReply).replyingTo) {
+              const userReply = action.comment as any as UserReply
+
+              const associatedComment = state.find(comment => {
+                  const replies = comment.replies
+                  if (replies.find(reply => reply === userReply)) return comment
+              })
+
+              return updateComments(associatedComment!)
+          }
+
+          return updateComments(userComment)
+
+      default:
+          return comments
+  }
+}
+
+let nextID = 4
+
 function App() {
   return (
     <div className="max-w-2xl">
