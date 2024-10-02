@@ -92,7 +92,6 @@ export default function Comment({
             )}
 
             {currentlySelected == 'edit' && (
-            {currentlySelected == 'edit' && (
                 <FormComponent
                     type={currentlySelected}
                     onUpdate={(newValue: string) => {
