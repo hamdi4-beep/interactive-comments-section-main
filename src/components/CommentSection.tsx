@@ -41,18 +41,13 @@ export default function CommentSection({
 
             case 'reply':
                 const userComment = action.comment!
-                const replies = userComment.replies
-
-                const user = userComment.user
-
-                const filtered = state.filter(it => it !== userComment)
 
                 const reply = {
                     id: nextID + 1,
                     content: action.value,
                     createdAt: "now",
                     score: 0,
-                    replyingTo: user.username,
+                    replyingTo: userComment.user.username,
                     user: {
                         image: { 
                             png: "/interactive-comments-section-main/assets/images/avatars/image-juliusomo.png",
@@ -62,20 +57,19 @@ export default function CommentSection({
                     }
                 }
 
-                console.log(userComment)
-                console.log(state)
+                const updatedComments = state.map(comment => {
+                    if (comment === userComment) return {
+                        ...comment,
+                        replies: [
+                            ...comment.replies,
+                            reply
+                        ]
+                    }
 
-                const updatedComment = {
-                    ...userComment,
-                    replies: [
-                        ...replies,
-                        reply
-                    ]
-                }
+                    return comment
+                })
 
-                console.log(updatedComment)
-
-                return filtered.concat(updatedComment)
+                return updatedComments
 
             default:
                 return comments
