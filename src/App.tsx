@@ -34,105 +34,103 @@ export const reducer = (state: UserComment[], action: {
   comment?: UserComment
 }) => {
   const comment = {
-      id: nextID++,
-      content: action.value,
-      createdAt: "now",
-      score: 0,
-      user: currentUser
+    id: nextID++,
+    content: action.value,
+    createdAt: "now",
+    score: 0,
+    user: currentUser
   }
 
   switch (action.type) {
-      case 'add':
-          const newComment = {
-              ...comment,
-              replies: []
+    case 'add':
+      const newComment = {
+          ...comment,
+          replies: []
+      }
+
+      return [...state, newComment]
+
+    case 'reply':
+      const userComment = action.comment!
+
+      const reply = {
+        ...comment,
+        replyingTo: userComment.user.username
+      }
+
+      const updateComments = (comment: UserComment) => state.map(it => {
+        const replies = comment.replies
+
+        if (it === comment) {
+          return {
+            ...comment,
+            replies: [
+                ...replies,
+                reply
+            ]
           }
+        }
 
-          return [...state, newComment]
+        return it
+      })
 
-      case 'reply':
-          const userComment = action.comment!
+      if ((userComment as any as UserReply).replyingTo) {
+        const userReply = action.comment as any as UserReply
 
-          const reply = {
-              ...comment,
-              replyingTo: userComment.user.username
+        const associatedComment = state.find(comment => {
+            const replies = comment.replies
+            if (replies.find(reply => reply === userReply)) return comment
+        })
+
+        return updateComments(associatedComment!)
+      }
+
+      return updateComments(userComment)
+
+    case 'edit':
+      const editComment = (currentComment: UserComment) => state.map(it => {
+        if (currentComment == it) {
+          return {
+            ...currentComment,
+            content: action.value
           }
+        }
 
-          const updateComments = (comment: UserComment) => state.map(it => {
-              const replies = comment.replies
+        return it
+      })
 
-              if (it === comment) {
-                  return {
-                      ...comment,
-                      replies: [
-                          ...replies,
-                          reply
-                      ]
-                  }
-              }
+      if ((action.comment as any as UserReply).replyingTo) {
+        const userReply = action.comment as any as UserReply
 
-              return it
-          })
+        const updatedComments = state.map(it => {
+          const replies = it.replies
 
-          if ((userComment as any as UserReply).replyingTo) {
-              const userReply = action.comment as any as UserReply
-
-              const associatedComment = state.find(comment => {
-                  const replies = comment.replies
-                  if (replies.find(reply => reply === userReply)) return comment
-              })
-
-              return updateComments(associatedComment!)
-          }
-
-          return updateComments(userComment)
-
-      case 'edit':
-        const editComment = (currentComment: UserComment) => state.map(it => {
-          if (currentComment == it) {
+          if (replies) {
             return {
-              ...currentComment,
-              content: action.value
+              ...it,
+              replies: replies.map(reply => {
+                if (reply === userReply) {
+                  return {
+                    ...userReply,
+                    content: action.value
+                  }
+                }
+  
+                return reply
+              })
             }
           }
 
           return it
         })
 
-        if ((action.comment as any as UserReply).replyingTo) {
-          const userReply = action.comment as any as UserReply
-
-          const updatedComments = state.map(it => {
-            const replies = it.replies
-
-            if (replies) {
-              return {
-                ...it,
-                replies: replies.map(reply => {
-                  if (reply === userReply) {
-                    return {
-                      ...userReply,
-                      content: action.value
-                    }
-                  }
-    
-                  return reply
-                })
-              }
-            }
-
-            return it
-          })
-
-          return updatedComments
-        }
-
-        const updatedComments = editComment(action.comment!)
-
         return updatedComments
+      }
 
-      default:
-        return comments
+      return editComment(action.comment!)
+
+    default:
+      return comments
   }
 }
 
