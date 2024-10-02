@@ -15,13 +15,14 @@ export default function Comment({
     comment: UserComment
     updateComment: Function
 }) {
-    const [isReplying, setIsReplying] = React.useState(false)
-    const [isEditing, setIsEditing] = React.useState(false)
+    const [type, setType] = React.useState('')
 
     const user = comment.user
     const isCurrentUser = currentUser.username === user.username
 
     const replies = comment.replies
+
+    const handleClick = (type: string) => setType(currentType => currentType === type ? '' : type)
 
     return (
         <div className='comment-wrapper'>
@@ -51,12 +52,12 @@ export default function Comment({
                                 </div>
 
                                 <div className="buttons flex gap-4">
-                                    {isCurrentUser && <Btn onClick={() => setIsEditing(!isEditing)}>
+                                    {isCurrentUser && <Btn onClick={() => handleClick('edit')}>
                                         <img src="/interactive-comments-section-main/assets/images/icon-edit.svg" alt="" />
                                         Edit
                                     </Btn>}
 
-                                    <Btn onClick={() => setIsReplying(!isReplying)}>
+                                    <Btn onClick={() => handleClick('reply')}>
                                         <img src="/interactive-comments-section-main/assets/images/icon-reply.svg" alt="" />
                                         Reply
                                     </Btn>
@@ -75,11 +76,11 @@ export default function Comment({
                 </div>
             </div>
 
-            {isReplying && (
+            {type == 'reply' && (
                 <FormComponent
-                    type='reply'
+                    type={type}
                     onUpdate={(value: string) => {
-                        setIsReplying(false)
+                        setType('')
 
                         updateComment({
                             type: 'reply',
@@ -90,12 +91,12 @@ export default function Comment({
                 />
             )}
 
-            {isEditing && (
+            {type == 'edit' && (
                 <FormComponent
-                    type="edit"
+                    type={type}
                     onUpdate={() => {
-                        setIsEditing(false)
-                        alert('The edit functionality is currently being developed.')
+                        setType('')
+                        alert('The edit functionality is currently being developed')
                     }}
                 />
             )}

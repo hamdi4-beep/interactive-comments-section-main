@@ -88,7 +88,7 @@ export const reducer = (state: UserComment[], action: {
           return updateComments(userComment)
 
       default:
-          return comments
+        return comments
   }
 }
 
