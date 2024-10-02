@@ -554,42 +554,6 @@ video {
   display: none;
 }
 
-.comment-design {
-  border-radius: 0.75rem;
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  padding: 1rem;
-}
-
-.comment-date {
-  --tw-text-opacity: 1;
-  color: hsl(211 10% 45% / var(--tw-text-opacity));
-}
-
-.user-avatar {
-  height: 2.5rem;
-  width: 2.5rem;
-}
-
-.currentUser-label {
-  --tw-bg-opacity: 1;
-  background-color: hsl(238 40% 52% / var(--tw-bg-opacity));
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  line-height: 1.25;
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.btn {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-weight: 700;
-  --tw-text-opacity: 1;
-  color: hsl(238 40% 52% / var(--tw-text-opacity));
-}
-
 .-mt-4 {
   margin-top: -1rem;
 }
@@ -600,10 +564,6 @@ video {
 
 .mt-4 {
   margin-top: 1rem;
-}
-
-.ml-14 {
-  margin-left: 3.5rem;
 }
 
 .flex {
@@ -701,6 +661,11 @@ video {
   padding: 1rem;
 }
 
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -714,11 +679,6 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
-
-.px-3 {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
 }
 
 .pb-0 {
@@ -735,10 +695,6 @@ video {
 
 .pt-2 {
   padding-top: 0.5rem;
-}
-
-.pt-4 {
-  padding-top: 1rem;
 }
 
 .text-center {
@@ -806,5 +762,12 @@ body {
     width: 6em;
     justify-content: center;
     padding: 0;
+  }
+
+  .replies-list {
+    border-left: 1px solid hsl(228, 33%, 97%);
+    margin-top: 1em;
+    margin-left: 0;
+    padding-top: 0;
   }
 }

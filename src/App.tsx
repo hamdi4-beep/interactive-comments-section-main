@@ -32,7 +32,6 @@ export const reducer = (state: UserComment[], action: {
   type: string
   value: string
   comment?: UserComment
-  reply?: any
 }) => {
   const comment = {
       id: nextID++,

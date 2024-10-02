@@ -13,24 +13,6 @@ body {
     margin-top: -1em;
 }
 
-@layer components {
-    .comment-design {
-        @apply bg-white p-4 rounded-xl;
-    }
-    .comment-date {
-        @apply text-neutral-grayish-blue;
-    }
-    .user-avatar {
-        @apply w-10 h-10;
-    }
-    .currentUser-label {
-        @apply bg-primary-moderate-blue px-3 leading-tight text-white;
-    }
-    .btn {
-        @apply flex items-center gap-3 text-primary-moderate-blue font-bold;
-    }
-}
-
 @media screen and (max-width: 768px) {
     .items-list {
         position: relative;
@@ -49,5 +31,12 @@ body {
         width: 6em;
         justify-content: center;
         padding: 0;
+    }
+
+    .replies-list {
+        border-left: 1px solid hsl(228, 33%, 97%);
+        margin-top: 1em;
+        margin-left: 0;
+        padding-top: 0;
     }
 }

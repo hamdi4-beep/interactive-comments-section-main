@@ -26,7 +26,7 @@ export default function Comment({
     return (
         <div className='comment-wrapper'>
             <div className='comment'>
-                <div className="comment-design">
+                <div className="bg-white p-4 rounded-xl">
                     <div className="items-list flex gap-4">
                         <ScoreComponent defaultScore={comment.score} />
 
@@ -36,7 +36,7 @@ export default function Comment({
                                     <div className="user-img">
                                         <img
                                             src={user.image.png}
-                                            className="user-avatar"
+                                            className="w-10 h-10"
                                             alt=""
                                         />
                                     </div>
@@ -44,10 +44,10 @@ export default function Comment({
                                     <h2 className='font-bold'>{user.username}</h2>
 
                                     {isCurrentUser && (
-                                        <span className='currentUser-label'>you</span>
+                                        <span className='bg-primary-moderate-blue px-3 leading-tight text-white'>you</span>
                                     )}
 
-                                    <span className='comment-date'>{comment.createdAt}</span>
+                                    <span className='text-neutral-grayish-blue'>{comment.createdAt}</span>
                                 </div>
 
                                 <div className="buttons flex gap-4">
@@ -61,8 +61,6 @@ export default function Comment({
                                         Reply
                                     </Btn>
                                 </div>
-
-                                
                             </div>
 
                             <p className='py-4'>
@@ -103,7 +101,7 @@ export default function Comment({
             )}
 
             {replies?.length > 0 && (
-                <div className='grid gap-4 ml-16 p-4 pb-0 pr-0'>
+                <div className='replies-list grid gap-4 ml-16 p-4 pb-0 pr-0'>
                     {replies.map((reply, i) => (
                         <Comment
                             comment={reply as UserReply as any}
@@ -143,7 +141,7 @@ export const Btn = ({
     children: React.ReactNode,
     onClick: () => void
 }) => (
-    <button className='btn' onClick={onClick}>
+    <button className='flex items-center gap-3 text-primary-moderate-blue font-bold' onClick={onClick}>
         {children}
     </button>
 )
