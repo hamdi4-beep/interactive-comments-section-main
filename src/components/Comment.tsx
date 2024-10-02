@@ -80,11 +80,23 @@ export default function Comment({
                 <FormComponent
                     type='reply'
                     onUpdate={(value: string) => {
+                        setIsReplying(false)
+
                         updateComment({
                             type: 'reply',
                             comment,
                             value
                         })
+                    }}
+                />
+            )}
+
+            {isEditing && (
+                <FormComponent
+                    type="edit"
+                    onUpdate={() => {
+                        setIsEditing(false)
+                        alert('The edit functionality is currently being developed.')
                     }}
                 />
             )}
