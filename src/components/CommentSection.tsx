@@ -58,14 +58,6 @@ export default function CommentSection({
                     }
                 }
 
-                /* {
-                        ...comment,
-                        replies: [
-                            ...replies,
-                            reply
-                        ]
-                    } */
-
                 const updateComments = (comment: UserComment) => state.map(it => {
                     const replies = comment.replies
 
