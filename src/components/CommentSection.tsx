@@ -19,6 +19,7 @@ export default function CommentSection({
         type: string
         value: string
         comment?: UserComment
+        reply?: any
     }) => {
         switch (action.type) {
             case 'add':
@@ -57,19 +58,42 @@ export default function CommentSection({
                     }
                 }
 
-                const updatedComments = state.map(comment => {
-                    if (comment === userComment) return {
+                /* {
                         ...comment,
                         replies: [
-                            ...comment.replies,
+                            ...replies,
                             reply
                         ]
+                    } */
+
+                const updateComments = (comment: UserComment) => state.map(it => {
+                    const replies = comment.replies
+
+                    if (it === comment) {
+                        return {
+                            ...comment,
+                            replies: [
+                                ...replies,
+                                reply
+                            ]
+                        }
                     }
 
-                    return comment
+                    return it
                 })
 
-                return updatedComments
+                if ((userComment as any as UserReply).replyingTo) {
+                    const userReply = action.comment as any as UserReply
+
+                    const associatedComment = state.find(comment => {
+                        const replies = comment.replies
+                        if (replies.find(reply => reply === userReply)) return comment
+                    })
+
+                    return updateComments(associatedComment!)
+                }
+
+                return updateComments(userComment)
 
             default:
                 return comments
@@ -88,30 +112,13 @@ export default function CommentSection({
                 }
             />
 
-            {userComments.map((comment, i) => {
-                const replies = Array.from(new Set(comment.replies))
-
-                return (
-                    <div key={i}>
-                        <Comment
-                            comment={comment}
-                            updateComment={dispatch}
-                        />
-
-                        {replies?.length > 0 && (
-                            <div className='grid gap-4 ml-16 p-4 pb-0 pr-0'>
-                                {replies.map((reply, i) => (
-                                    <Comment 
-                                        updateComment={dispatch}
-                                        comment={reply as UserReply as any}
-                                        key={i}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                )})
-            }
+            {userComments.map((comment, i) => (
+                <Comment
+                    comment={comment}
+                    updateComment={dispatch}
+                    key={i}
+                />
+            ))}
         </div>
     )
 }

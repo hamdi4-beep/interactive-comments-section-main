@@ -2,7 +2,8 @@ import * as React from 'react'
 
 import {
     currentUser,
-    UserComment
+    UserComment,
+    UserReply
 } from '../App'
 
 import FormComponent from './FormComponent'
@@ -20,10 +21,12 @@ export default function Comment({
     const user = comment.user
     const isCurrentUser = currentUser.username === user.username
 
+    const replies = comment.replies
+
     return (
         <div className='comment-wrapper'>
             <div className='comment'>
-                <div className="bg-white rounded-xl p-4">
+                <div className="comment-design">
                     <div className="items-list flex gap-4">
                         <ScoreComponent defaultScore={comment.score} />
 
@@ -33,7 +36,7 @@ export default function Comment({
                                     <div className="user-img">
                                         <img
                                             src={user.image.png}
-                                            className="w-10 h-10"
+                                            className="user-avatar"
                                             alt=""
                                         />
                                     </div>
@@ -41,10 +44,10 @@ export default function Comment({
                                     <h2 className='font-bold'>{user.username}</h2>
 
                                     {isCurrentUser && (
-                                        <span className='bg-primary-moderate-blue px-3 leading-tight text-white'>you</span>
+                                        <span className='currentUser-label'>you</span>
                                     )}
 
-                                    <span className='text-neutral-grayish-blue'>{comment.createdAt}</span>
+                                    <span className='comment-date'>{comment.createdAt}</span>
                                 </div>
 
                                 <div className="buttons flex gap-4">
@@ -62,7 +65,12 @@ export default function Comment({
                                 
                             </div>
 
-                            <p className='py-4'>{comment.content}</p>
+                            <p className='py-4'>
+                                {(comment as any).replyingTo && (
+                                    <span className='font-bold text-primary-moderate-blue'>@{(comment as any).replyingTo} </span>
+                                )}
+                                {comment.content}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -79,6 +87,18 @@ export default function Comment({
                         })
                     }}
                 />
+            )}
+
+            {replies?.length > 0 && (
+                <div className='grid gap-4 ml-16 p-4 pb-0 pr-0'>
+                    {replies.map((reply, i) => (
+                        <Comment
+                            comment={reply as UserReply as any}
+                            updateComment={updateComment}
+                            key={i}
+                        />
+                    ))}
+                </div>
             )}
         </div>
     )
@@ -110,7 +130,7 @@ export const Btn = ({
     children: React.ReactNode,
     onClick: () => void
 }) => (
-    <button className='flex items-center gap-3 text-primary-moderate-blue font-bold' onClick={onClick}>
+    <button className='btn' onClick={onClick}>
         {children}
     </button>
 )
