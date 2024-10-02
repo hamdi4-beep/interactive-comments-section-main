@@ -24,9 +24,9 @@ export type UserReply = Omit<UserComment, "replies"> & {
 }
 
 export type FormLabels =
-  | 'Reply'
-  | 'Comment'
-  | 'Edit'
+  | 'reply'
+  | 'comment'
+  | 'edit'
 
 function App() {
   return (

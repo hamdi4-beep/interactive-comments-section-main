@@ -1,36 +1,30 @@
 import * as React from 'react'
-import FormComponent from './FormComponent'
 
 import {
     currentUser,
-    UserComment,
-    UserReply
+    UserComment
 } from '../App'
-import { nextID } from './CommentSection'
+import FormComponent from './FormComponent'
 
 export default function Comment({
-    updateComment,
-    data
+    comment,
+    updateComment
 }: {
+    comment: UserComment
     updateComment: Function
-    data: UserComment | UserReply
 }) {
     const [isReplying, setIsReplying] = React.useState(false)
     const [isEditing, setIsEditing] = React.useState(false)
 
-    const { user } = data
-
-    const isCurrentUser = user.username === currentUser?.username
-
-    const replies = (data as UserComment).replies
-    const reply = data as UserReply
+    const user = comment.user
+    const isCurrentUser = currentUser.username === user.username
 
     return (
         <div className='comment-wrapper'>
             <div className='comment'>
                 <div className="bg-white rounded-xl p-4">
                     <div className="items-list flex gap-4">
-                        <ScoreComponent defaultScore={data.score} />
+                        <ScoreComponent defaultScore={comment.score} />
 
                         <div className='w-full'>
                             <div className="flex items-center justify-between">
@@ -49,79 +43,47 @@ export default function Comment({
                                         <span className='bg-primary-moderate-blue px-3 leading-tight text-white'>you</span>
                                     )}
 
-                                    <span className='text-neutral-grayish-blue'>{data.createdAt}</span>
+                                    <span className='text-neutral-grayish-blue'>{comment.createdAt}</span>
                                 </div>
 
                                 <div className="buttons flex gap-4">
-                                    <Btn onClick={() => setIsReplying(!isReplying)}>
-                                        <img src="/interactive-comments-section-main/assets/images/icon-reply.svg" alt="" />
-                                        Reply
-                                    </Btn>
-
                                     {isCurrentUser && <Btn onClick={() => setIsEditing(!isEditing)}>
                                         <img src="/interactive-comments-section-main/assets/images/icon-edit.svg" alt="" />
                                         Edit
                                     </Btn>}
+
+                                    <Btn onClick={() => setIsReplying(!isReplying)}>
+                                        <img src="/interactive-comments-section-main/assets/images/icon-reply.svg" alt="" />
+                                        Reply
+                                    </Btn>
                                 </div>
+
+                                
                             </div>
 
-                            <p className="pt-4">
-                                {reply.replyingTo && (
-                                    <span className='font-bold text-primary-moderate-blue'>@{reply.replyingTo} </span>
-                                )}
-
-                                {data.content}
-                            </p>
+                            <p className='py-4'>{comment.content}</p>
                         </div>
                     </div>
                 </div>
-
-                {isReplying && (
-                    <FormComponent data={{
-                        type: 'Reply',
-                        updateComments: (replyValue: string) => {
-                            const reply = {
-                                content: replyValue,
-                                createdAt: "now",
-                                score: 0,
-                                user: currentUser,
-                                replyingTo: user.username,
-                                id: nextID + 1
-                            }
-
-                            setIsReplying(false)
-
-                            updateComment(reply)
-                        }
-                    }} />
-                )}
-
-                {isEditing && (
-                    <FormComponent data={{
-                        type: 'Edit',
-                        updateComments(edittedValue: string) {
-                            console.log(edittedValue)
-                        }
-                    }} />
-                )}
             </div>
 
-            {replies?.length > 0 && (
-                <div className='grid gap-4 p-4 pr-0 pb-0 ml-14'>
-                    {replies.map((reply, i) => (
-                        <Comment
-                            updateComment={updateComment}
-                            data={reply}
-                            key={i}
-                        />
-                    ))}
-                </div>
+            {isReplying && (
+                <FormComponent
+                    type='reply'
+                    onUpdate={(value: string) => {
+                        updateComment({
+                            type: 'reply',
+                            comment,
+                            value
+                        })
+                    }}
+                />
             )}
         </div>
     )
 }
 
-const ScoreComponent = ({
+export const ScoreComponent = ({
     defaultScore
 }: {
     defaultScore: number
@@ -140,7 +102,7 @@ const ScoreComponent = ({
     )
 }
 
-const Btn = ({
+export const Btn = ({
     children,
     onClick
 }: {

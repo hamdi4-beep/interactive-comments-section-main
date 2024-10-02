@@ -4,7 +4,6 @@ import FormComponent from './FormComponent'
 import Comment from './Comment'
 
 import {
-    currentUser,
     UserComment,
     UserReply
 } from '../App';
@@ -18,17 +17,56 @@ export default function CommentSection({
 }) {
     const [userComments, dispatch] = React.useReducer((state: UserComment[], action: {
         type: string
-        value: UserComment | UserReply
+        value: string
+        comment?: UserComment
     }) => {
         switch (action.type) {
-            case 'createComment':
-                return [
-                    ...state,
-                    action.value as UserComment
-                ]
+            case 'add':
+                const comment = {
+                    id: nextID + 1,
+                    content: action.value,
+                    createdAt: "now",
+                    score: 0,
+                    user: {
+                        image: { 
+                            png: "/interactive-comments-section-main/assets/images/avatars/image-juliusomo.png",
+                            webp: "/interactive-comments-section-main/assets/images/avatars/image-juliusomo.webp"
+                        },
+                        username: "juliusomo"
+                    },
+                    replies: []
+                }
 
-            case 'replyComment':
-                return [...state]
+                return [...state, comment]
+
+            case 'reply':
+                const userComment = action.comment!
+                const replies = userComment.replies
+
+                const user = userComment.user
+
+                const reply = {
+                    id: nextID + 1,
+                    content: action.value,
+                    createdAt: "now",
+                    score: 0,
+                    replyingTo: user.username,
+                    user: {
+                        image: { 
+                            png: "/interactive-comments-section-main/assets/images/avatars/image-juliusomo.png",
+                            webp: "/interactive-comments-section-main/assets/images/avatars/image-juliusomo.webp"
+                        },
+                        username: "juliusomo"
+                    }
+                }
+
+                replies.push(reply)
+                console.log(userComment)
+
+                return Array.from(new Set([
+                    ...state,
+                    userComment
+                ]))
 
             default:
                 return comments
@@ -37,46 +75,38 @@ export default function CommentSection({
 
     return (
         <div className='comments-section p-4 grid gap-4'>
-            <FormComponent data={{
-                type: 'Comment',
-                updateComments(commentValue: string) {
-                    const comment = {
-                        id: nextID++,
-                        content: commentValue,
-                        createdAt: "now",
-                        score: 0,
-                        user: currentUser,
-                        replies: [] as UserReply[]
-                    }
-
+            <FormComponent
+                type='comment'
+                onUpdate={(value: string) => {
                     dispatch({
-                        type: 'createComment',
-                        value: comment
-                    })
+                        type: 'add',
+                        value
+                    })}
                 }
-            }} />
+            />
 
             {userComments.map((comment, i) => {
-                const replies = comment.replies
-
-                const addReply = (reply: UserReply) => {
-                    replies.push({
-                        ...reply,
-                        id: nextID++
-                    })
-
-                    dispatch({
-                        type: 'replyComment',
-                        value: comment
-                    })
-                }
+                const replies = Array.from(new Set(comment.replies))
 
                 return (
-                    <Comment
-                        data={comment}
-                        updateComment={addReply}
-                        key={i}
-                    />
+                    <div key={i}>
+                        <Comment
+                            comment={comment}
+                            updateComment={dispatch}
+                        />
+
+                        {replies?.length > 0 && (
+                            <div className='grid gap-4 ml-16 p-4 pb-0 pr-0'>
+                                {replies.map((reply, i) => (
+                                    <Comment 
+                                        updateComment={dispatch}
+                                        comment={reply as UserReply as any}
+                                        key={i}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 )})
             }
         </div>

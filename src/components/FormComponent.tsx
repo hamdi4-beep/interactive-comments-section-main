@@ -6,21 +6,20 @@ import {
 } from '../App'
 
 export default function FormComponent({
-    data
+    type,
+    onUpdate
 }: {
-    data: {
-        updateComments: Function
-        type: FormLabels
-    }
+    type: FormLabels
+    onUpdate: Function
 }) {
     const labels = {
-        Comment: ['Add comment...', 'Comment'],
-        Reply: ['Add reply...', 'Send'],
-        Edit: ['Edit reply...', 'Edit']
+        comment: ['Add comment...', 'Comment'],
+        reply: ['Add reply...', 'Send'],
+        edit: ['Edit reply...', 'Edit']
     }
 
     const getLabels = (label: FormLabels) => labels[label]
-    const [text, label] = getLabels(data.type)
+    const [text, label] = getLabels(type)
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -36,7 +35,7 @@ export default function FormComponent({
             return
         }
 
-        data.updateComments(value)
+        onUpdate(value)
     }
 
     return (
