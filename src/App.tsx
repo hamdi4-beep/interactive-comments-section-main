@@ -88,8 +88,48 @@ export const reducer = (state: UserComment[], action: {
           return updateComments(userComment)
 
       case 'edit':
-        console.log(action.comment)
-        return state
+        const editComment = (currentComment: UserComment) => state.map(it => {
+          if (currentComment == it) {
+            return {
+              ...currentComment,
+              content: action.value
+            }
+          }
+
+          return it
+        })
+
+        if ((action.comment as any as UserReply).replyingTo) {
+          const userReply = action.comment as any as UserReply
+
+          const updatedComments = state.map(it => {
+            const replies = it.replies
+
+            if (replies) {
+              return {
+                ...it,
+                replies: replies.map(reply => {
+                  if (reply === userReply) {
+                    return {
+                      ...userReply,
+                      content: action.value
+                    }
+                  }
+    
+                  return reply
+                })
+              }
+            }
+
+            return it
+          })
+
+          return updatedComments
+        }
+
+        const updatedComments = editComment(action.comment!)
+
+        return updatedComments
 
       default:
         return comments

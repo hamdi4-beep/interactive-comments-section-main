@@ -15,8 +15,6 @@ export default function CommentSection({
 }) {
     const [userComments, dispatch] = React.useReducer(reducer, comments)
 
-    console.log(userComments)
-
     return (
         <div className='comments-section p-4 grid gap-4'>
             <FormComponent
