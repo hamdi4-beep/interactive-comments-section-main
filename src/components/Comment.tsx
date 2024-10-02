@@ -69,6 +69,7 @@ export default function Comment({
                                 {(comment as any).replyingTo && (
                                     <span className='font-bold text-primary-moderate-blue'>@{(comment as any).replyingTo} </span>
                                 )}
+                                
                                 {comment.content}
                             </p>
                         </div>

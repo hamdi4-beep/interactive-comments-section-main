@@ -4,6 +4,7 @@ import FormComponent from './FormComponent'
 import Comment from './Comment'
 
 import {
+    currentUser,
     UserComment,
     UserReply
 } from '../App';
@@ -21,41 +22,29 @@ export default function CommentSection({
         comment?: UserComment
         reply?: any
     }) => {
+        const comment = {
+            id: nextID + 1,
+            content: action.value,
+            createdAt: "now",
+            score: 0,
+            user: currentUser
+        }
+
         switch (action.type) {
             case 'add':
-                const comment = {
-                    id: nextID + 1,
-                    content: action.value,
-                    createdAt: "now",
-                    score: 0,
-                    user: {
-                        image: { 
-                            png: "/interactive-comments-section-main/assets/images/avatars/image-juliusomo.png",
-                            webp: "/interactive-comments-section-main/assets/images/avatars/image-juliusomo.webp"
-                        },
-                        username: "juliusomo"
-                    },
+                const newComment = {
+                    ...comment,
                     replies: []
                 }
 
-                return [...state, comment]
+                return [...state, newComment]
 
             case 'reply':
                 const userComment = action.comment!
 
                 const reply = {
-                    id: nextID + 1,
-                    content: action.value,
-                    createdAt: "now",
-                    score: 0,
-                    replyingTo: userComment.user.username,
-                    user: {
-                        image: { 
-                            png: "/interactive-comments-section-main/assets/images/avatars/image-juliusomo.png",
-                            webp: "/interactive-comments-section-main/assets/images/avatars/image-juliusomo.webp"
-                        },
-                        username: "juliusomo"
-                    }
+                    ...comment,
+                    replyingTo: userComment.user.username
                 }
 
                 const updateComments = (comment: UserComment) => state.map(it => {
