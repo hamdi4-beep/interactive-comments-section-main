@@ -15,14 +15,14 @@ export default function Comment({
     comment: UserComment
     updateComment: Function
 }) {
-    const [type, setType] = React.useState('')
+    const [currentlySelected, setCurrentlySelected] = React.useState('')
 
     const user = comment.user
     const isCurrentUser = currentUser.username === user.username
 
     const replies = comment.replies
 
-    const handleClick = (type: string) => setType(currentType => currentType === type ? '' : type)
+    const handleClick = (value: string) => setCurrentlySelected(selectedValue => selectedValue === value ? '' : value)
 
     return (
         <div className='comment-wrapper'>
@@ -76,11 +76,11 @@ export default function Comment({
                 </div>
             </div>
 
-            {type == 'reply' && (
+            {currentlySelected == 'reply' && (
                 <FormComponent
-                    type={type}
+                    type={currentlySelected}
                     onUpdate={(value: string) => {
-                        setType('')
+                        setCurrentlySelected('')
 
                         updateComment({
                             type: 'reply',
@@ -91,12 +91,16 @@ export default function Comment({
                 />
             )}
 
-            {type == 'edit' && (
+            {currentlySelected == 'edit' && (
                 <FormComponent
-                    type={type}
+                    type={currentlySelected}
                     onUpdate={() => {
-                        setType('')
-                        alert('The edit functionality is currently being developed')
+                        setCurrentlySelected('')
+
+                        updateComment({
+                            type: 'edit',
+                            comment
+                        })
                     }}
                 />
             )}

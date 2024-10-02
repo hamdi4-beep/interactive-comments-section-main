@@ -87,6 +87,10 @@ export const reducer = (state: UserComment[], action: {
 
           return updateComments(userComment)
 
+      case 'edit':
+        console.log(action.comment)
+        return state
+
       default:
         return comments
   }
