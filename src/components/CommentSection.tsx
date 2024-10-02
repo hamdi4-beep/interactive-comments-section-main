@@ -45,6 +45,8 @@ export default function CommentSection({
 
                 const user = userComment.user
 
+                const filtered = state.filter(it => it !== userComment)
+
                 const reply = {
                     id: nextID + 1,
                     content: action.value,
@@ -60,13 +62,20 @@ export default function CommentSection({
                     }
                 }
 
-                replies.push(reply)
                 console.log(userComment)
+                console.log(state)
 
-                return Array.from(new Set([
-                    ...state,
-                    userComment
-                ]))
+                const updatedComment = {
+                    ...userComment,
+                    replies: [
+                        ...replies,
+                        reply
+                    ]
+                }
+
+                console.log(updatedComment)
+
+                return filtered.concat(updatedComment)
 
             default:
                 return comments

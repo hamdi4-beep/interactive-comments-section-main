@@ -4,6 +4,7 @@ import {
     currentUser,
     UserComment
 } from '../App'
+
 import FormComponent from './FormComponent'
 
 export default function Comment({
