@@ -13,6 +13,12 @@ body {
     margin-top: -1em;
 }
 
+@layer components {
+    .btn {
+        @apply flex items-center gap-3 text-primary-moderate-blue font-bold;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .items-list {
         position: relative;

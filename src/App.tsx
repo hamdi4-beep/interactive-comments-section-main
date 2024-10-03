@@ -44,18 +44,19 @@ export const reducer = (state: UserComment[], action: {
   switch (action.type) {
     case 'add':
       const newComment = {
-          ...comment,
-          replies: []
+        ...comment,
+        replies: []
       }
 
       return [...state, newComment]
 
     case 'reply':
       const userComment = action.comment!
+      const user = userComment.user
 
       const reply = {
         ...comment,
-        replyingTo: userComment.user.username
+        replyingTo: user.username
       }
 
       const updateComments = (comment: UserComment) => state.map(it => {
@@ -65,8 +66,8 @@ export const reducer = (state: UserComment[], action: {
           return {
             ...comment,
             replies: [
-                ...replies,
-                reply
+              ...replies,
+              reply
             ]
           }
         }
@@ -76,13 +77,9 @@ export const reducer = (state: UserComment[], action: {
 
       if ((userComment as any as UserReply).replyingTo) {
         const userReply = action.comment as any as UserReply
+        const associatedComment = state.find(comment => comment.replies.find(reply => reply === userReply))!
 
-        const associatedComment = state.find(comment => {
-            const replies = comment.replies
-            if (replies.find(reply => reply === userReply)) return comment
-        })
-
-        return updateComments(associatedComment!)
+        return updateComments(associatedComment)
       }
 
       return updateComments(userComment)
@@ -138,7 +135,7 @@ let nextID = 4
 
 function App() {
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-2xl mt-4">
       <CommentSection comments={comments} />
     </div>
   )

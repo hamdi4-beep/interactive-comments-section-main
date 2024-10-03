@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import {
     currentUser,
+    FormLabels,
     UserComment,
     UserReply
 } from '../App'
@@ -16,13 +17,14 @@ export default function Comment({
     updateComment: Function
 }) {
     const [currentlySelected, setCurrentlySelected] = React.useState('')
+    const [isEditted, setIsEditted] = React.useState(false)
 
     const user = comment.user
     const isCurrentUser = currentUser.username === user.username
 
     const replies = comment.replies
 
-    const handleClick = (value: string) => setCurrentlySelected(selectedValue => selectedValue === value ? '' : value)
+    const handleClick = (value: FormLabels) => setCurrentlySelected(selectedValue => selectedValue === value ? '' : value)
 
     return (
         <div className='comment-wrapper'>
@@ -52,15 +54,15 @@ export default function Comment({
                                 </div>
 
                                 <div className="buttons flex gap-4">
-                                    {isCurrentUser && <Btn onClick={() => handleClick('edit')}>
+                                    {isCurrentUser && <button className='btn' onClick={() => handleClick('edit')}>
                                         <img src="/interactive-comments-section-main/assets/images/icon-edit.svg" alt="" />
                                         Edit
-                                    </Btn>}
+                                    </button>}
 
-                                    <Btn onClick={() => handleClick('reply')}>
+                                    <button className='btn' onClick={() => handleClick('reply')}>
                                         <img src="/interactive-comments-section-main/assets/images/icon-reply.svg" alt="" />
                                         Reply
-                                    </Btn>
+                                    </button>
                                 </div>
                             </div>
 
@@ -70,6 +72,10 @@ export default function Comment({
                                 )}
                                 
                                 {comment.content}
+
+                                {isEditted && (
+                                    <span className='text-neutral-grayish-blue'> (editted)</span>
+                                )}
                             </p>
                         </div>
                     </div>
@@ -99,9 +105,11 @@ export default function Comment({
 
                         updateComment({
                             type: 'edit',
-                            comment,
-                            value: newValue
+                            value: newValue,
+                            comment
                         })
+
+                        setIsEditted(true)
                     }}
                 />
             )}
@@ -139,15 +147,3 @@ export const ScoreComponent = ({
         </div>
     )
 }
-
-export const Btn = ({
-    children,
-    onClick
-}: {
-    children: React.ReactNode,
-    onClick: () => void
-}) => (
-    <button className='flex items-center gap-3 text-primary-moderate-blue font-bold' onClick={onClick}>
-        {children}
-    </button>
-)
