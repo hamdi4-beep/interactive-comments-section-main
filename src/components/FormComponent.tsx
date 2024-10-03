@@ -39,7 +39,7 @@ export default function FormComponent({
     }
 
     return (
-        <div className="form-component bg-white rounded-xl p-4 pt-8 -mt-4 flex gap-4 items-start">
+        <div className="form-component bg-white rounded-xl p-4 pt-8 -mt-4 flex gap-3 items-start">
             <div className="user-img self-start flex-shrink-0">
                 <img
                     src={currentUser.image.png}
@@ -57,7 +57,7 @@ export default function FormComponent({
                 />
                 
                 <button
-                    className='bg-primary-moderate-blue p-2 px-4 mt-4 rounded-md text-white uppercase'
+                    className='bg-primary-moderate-blue p-2 px-4 mt-3 rounded-md text-white uppercase'
                 >{label}</button>
             </form>
         </div>

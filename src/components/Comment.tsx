@@ -54,10 +54,20 @@ export default function Comment({
                                 </div>
 
                                 <div className="buttons flex gap-4">
-                                    {isCurrentUser && <button className='btn' onClick={() => handleClick('edit')}>
+                                    {isCurrentUser && (
+                                        <button className='btn' onClick={() => updateComment({
+                                            type: 'delete',
+                                            comment
+                                        })}>
+                                            <img src="/interactive-comments-section-main/assets/images/icon-delete.svg" alt="" />
+                                            Delete
+                                        </button>
+                                    )}
+
+                                    {isCurrentUser && (<button className='btn' onClick={() => handleClick('edit')}>
                                         <img src="/interactive-comments-section-main/assets/images/icon-edit.svg" alt="" />
                                         Edit
-                                    </button>}
+                                    </button>)}
 
                                     <button className='btn' onClick={() => handleClick('reply')}>
                                         <img src="/interactive-comments-section-main/assets/images/icon-reply.svg" alt="" />
@@ -115,7 +125,7 @@ export default function Comment({
             )}
 
             {replies?.length > 0 && (
-                <div className='replies-list grid gap-4 ml-16 p-4 pb-0 pr-0'>
+                <div className='replies-list grid gap-4 ml-4 mt-4 pl-4'>
                     {replies.map((reply, i) => (
                         <Comment
                             comment={reply as UserReply as any}

@@ -18,6 +18,10 @@ body {
     border-bottom: 1px solid #eee;
 }
 
+.replies-list {
+    border-left: 1px solid hsl(228, 33%, 97%);
+}
+
 @layer components {
     .btn {
         @apply flex items-center gap-3 text-primary-moderate-blue font-bold;
@@ -42,12 +46,5 @@ body {
         width: 6em;
         justify-content: center;
         padding: 0;
-    }
-
-    .replies-list {
-        border-left: 1px solid hsl(228, 33%, 97%);
-        margin-top: 1em;
-        margin-left: 0;
-        padding-top: 0;
     }
 }
