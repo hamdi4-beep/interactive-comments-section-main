@@ -74,7 +74,7 @@ export default function Comment({
                                 {comment.content}
 
                                 {isEditted && (
-                                    <span className='text-neutral-grayish-blue'> (editted)</span>
+                                    <span className='text-neutral-grayish-blue'> (edited)</span>
                                 )}
                             </p>
                         </div>
