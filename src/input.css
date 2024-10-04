@@ -45,7 +45,7 @@ body {
     }
 
     .modal-btn {
-        @apply p-3 px-7 text-white uppercase rounded-md;
+        @apply p-3 px-7 text-white uppercase rounded-md flex-grow;
     }
 }
 

@@ -28,13 +28,14 @@ export type FormLabels =
   | 'comment'
   | 'edit'
 
+export type STATE_ACTIONS =
+  | 'CREATE_COMMENT'
+  | 'REPLY_COMMENT'
+  | 'EDIT_COMMENT'
+  | 'DELETE_COMMENT'
+
 export const reducer = (state: UserComment[], action: {
-  type:
-    | 'CREATE_COMMENT'
-    | 'REPLY_COMMENT'
-    | 'EDIT_COMMENT'
-    | 'DELETE_COMMENT'
-    
+  type: STATE_ACTIONS,
   value: string
   comment?: UserComment
 }) => {

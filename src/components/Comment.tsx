@@ -3,6 +3,7 @@ import * as React from 'react'
 import {
     currentUser,
     FormLabels,
+    STATE_ACTIONS,
     UserComment,
     UserReply
 } from '../App'
@@ -14,7 +15,11 @@ export default function Comment({
     updateComment
 }: {
     comment: UserComment
-    updateComment: Function
+    updateComment: React.Dispatch<{
+        type: STATE_ACTIONS,
+        value: string,
+        comment?: UserComment
+    }>
 }) {
     const [currentlySelected, setCurrentlySelected] = React.useState('')
     const [isEditted, setIsEditted] = React.useState(false)
@@ -94,7 +99,8 @@ export default function Comment({
                 handleHideClick={() => setIsHidden(true)}
                 handleDeleteClick={() => updateComment({
                     type: 'DELETE_COMMENT',
-                    comment
+                    comment,
+                    value: ''
                 })}
             />}
 
@@ -171,7 +177,7 @@ const Modal = ({
     handleHideClick: () => void
     handleDeleteClick: () => void
 }) => (
-    <div className="bg-black bg-opacity-80 fixed inset-0 grid place-content-center">
+    <div className="bg-black bg-opacity-80 fixed inset-0 grid place-content-center z-50">
         <div className="bg-white rounded-lg max-w-sm p-4">
             <h2 className='font-bold text-neutral-grayish-blue text-xl'>Delete comment</h2>
             <p className='pt-3'>Are you sure you want to delete this comment? This will remove the comment and can't be undone.</p>
