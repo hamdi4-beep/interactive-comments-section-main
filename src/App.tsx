@@ -41,7 +41,10 @@ export const reducer = (state: UserComment[], action: {
     user: currentUser
   }
 
-  const findAssociatedComment = (reply: UserReply) => state.find(comment => comment.replies.find(it => it === reply))!
+  const findAssociatedComment = (reply: UserReply) => state.find(comment => {
+    const replies = comment.replies
+    return replies.find(it => it === reply)
+  })
 
   switch (action.type) {
     case 'add':
@@ -52,8 +55,12 @@ export const reducer = (state: UserComment[], action: {
 
       return [...state, newComment]
 
-    case 'reply':
+    case 'reply': {
       const userComment = action.comment!
+      const userReply = action.comment as any as UserReply
+
+      const associatedComment = findAssociatedComment(userReply)
+
       const user = userComment.user
 
       const reply = {
@@ -77,14 +84,15 @@ export const reducer = (state: UserComment[], action: {
         return it
       })
 
-      if ((userComment as any as UserReply).replyingTo) {
-        const userReply = action.comment as any as UserReply
-        return updateComments(findAssociatedComment(userReply))
-      }
+      if (associatedComment) return updateComments(associatedComment)
 
       return updateComments(userComment)
+    }
 
-    case 'edit':
+    case 'edit': {
+      const userReply = action.comment as any as UserReply
+      const associatedComment = findAssociatedComment(userReply)
+
       const editComment = (currentComment: UserComment) => state.map(it => {
         if (currentComment == it) {
           return {
@@ -96,7 +104,7 @@ export const reducer = (state: UserComment[], action: {
         return it
       })
 
-      if ((action.comment as any as UserReply).replyingTo) {
+      if (associatedComment) {
         const userReply = action.comment as any as UserReply
         const associatedComment = findAssociatedComment(userReply)
 
@@ -124,31 +132,29 @@ export const reducer = (state: UserComment[], action: {
       }
 
       return editComment(action.comment!)
+    }
 
     case 'delete':
-      const filteredComments = state.filter(comment => comment !== action.comment)
       const userReply = (action.comment as any as UserReply)
+      const associatedComment = findAssociatedComment(userReply)
       
-      if (userReply.replyingTo) {
-        const associatedComment = findAssociatedComment(userReply)
-        const replies = associatedComment?.replies
+      if (associatedComment) {
+        const replies = associatedComment.replies
 
         return state.map(it => {
-          if (it === associatedComment) {
-            return {
-              ...associatedComment,
-              replies: replies?.filter(it => it !== userReply)
-            }
-          }
+          if (associatedComment !== it) return it
 
-          return it
+          return {
+            ...associatedComment,
+            replies: replies?.filter(it => it !== userReply)
+          }
         })
       }
 
-      return filteredComments
+      return state.filter(comment => comment !== action.comment)
 
     default:
-      return comments
+      return state
   }
 }
 
