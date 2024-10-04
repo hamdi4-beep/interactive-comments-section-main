@@ -177,7 +177,9 @@ const Modal = ({
     handleHideClick: () => void
     handleDeleteClick: () => void
 }) => (
-    <div className="bg-black bg-opacity-80 fixed inset-0 grid place-content-center z-50">
+    <div className="bg-black bg-opacity-80 fixed inset-0 grid place-content-center z-50" onClick={(e: React.SyntheticEvent<HTMLElement>) => {
+        if (e.currentTarget === e.target) handleHideClick()
+    }}>
         <div className="bg-white rounded-lg max-w-sm p-4">
             <h2 className='font-bold text-neutral-grayish-blue text-xl'>Delete comment</h2>
             <p className='pt-3'>Are you sure you want to delete this comment? This will remove the comment and can't be undone.</p>
