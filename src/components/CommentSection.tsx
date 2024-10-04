@@ -21,7 +21,7 @@ export default function CommentSection({
                 type='comment'
                 onUpdate={(value: string) => {
                     dispatch({
-                        type: 'add',
+                        type: 'CREATE_COMMENT',
                         value
                     })}
                 }

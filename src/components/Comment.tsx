@@ -3,6 +3,7 @@ import * as React from 'react'
 import {
     currentUser,
     FormLabels,
+    STATE_ACTIONS,
     UserComment,
     UserReply
 } from '../App'
@@ -14,10 +15,15 @@ export default function Comment({
     updateComment
 }: {
     comment: UserComment
-    updateComment: Function
+    updateComment: React.Dispatch<{
+        type: STATE_ACTIONS,
+        value: string,
+        comment?: UserComment
+    }>
 }) {
     const [currentlySelected, setCurrentlySelected] = React.useState('')
     const [isEditted, setIsEditted] = React.useState(false)
+    const [isHidden, setIsHidden] = React.useState(true)
 
     const user = comment.user
     const isCurrentUser = currentUser.username === user.username
@@ -55,10 +61,7 @@ export default function Comment({
 
                                 <div className="buttons flex gap-4">
                                     {isCurrentUser && (
-                                        <button className='btn' onClick={() => updateComment({
-                                            type: 'delete',
-                                            comment
-                                        })}>
+                                        <button className='btn' onClick={() => setIsHidden(false)}>
                                             <img src="/interactive-comments-section-main/assets/images/icon-delete.svg" alt="" />
                                             Delete
                                         </button>
@@ -92,6 +95,15 @@ export default function Comment({
                 </div>
             </div>
 
+            {!isHidden && <Modal
+                handleHideClick={() => setIsHidden(true)}
+                handleDeleteClick={() => updateComment({
+                    type: 'DELETE_COMMENT',
+                    comment,
+                    value: ''
+                })}
+            />}
+
             {currentlySelected == 'reply' && (
                 <FormComponent
                     type={currentlySelected}
@@ -99,7 +111,7 @@ export default function Comment({
                         setCurrentlySelected('')
 
                         updateComment({
-                            type: 'reply',
+                            type: 'REPLY_COMMENT',
                             comment,
                             value
                         })
@@ -114,7 +126,7 @@ export default function Comment({
                         setCurrentlySelected('')
 
                         updateComment({
-                            type: 'edit',
+                            type: 'EDIT_COMMENT',
                             value: newValue,
                             comment
                         })
@@ -157,3 +169,23 @@ export const ScoreComponent = ({
         </div>
     )
 }
+
+const Modal = ({
+    handleHideClick,
+    handleDeleteClick
+}: {
+    handleHideClick: () => void
+    handleDeleteClick: () => void
+}) => (
+    <div className="bg-black bg-opacity-80 fixed inset-0 grid place-content-center z-50">
+        <div className="bg-white rounded-lg max-w-sm p-4">
+            <h2 className='font-bold text-neutral-grayish-blue text-xl'>Delete comment</h2>
+            <p className='pt-3'>Are you sure you want to delete this comment? This will remove the comment and can't be undone.</p>
+            
+            <div className='flex gap-3 pt-4'>
+                <button className='bg-neutral-grayish-blue modal-btn' onClick={handleHideClick}>No, Cancel</button>
+                <button className='bg-primary-soft-red modal-btn' onClick={handleDeleteClick}>Yes, delete</button>
+            </div>
+        </div>
+    </div>
+)
