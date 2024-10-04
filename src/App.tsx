@@ -68,7 +68,7 @@ export const reducer = (state: UserComment[], action: {
         replyingTo: user.username
       }
 
-      const updateComments = (comment: UserComment) => state.map(it => {
+      const updateReplies = (comment: UserComment) => state.map(it => {
         const replies = comment.replies
 
         if (it === comment) {
@@ -84,9 +84,9 @@ export const reducer = (state: UserComment[], action: {
         return it
       })
 
-      if (associatedComment) return updateComments(associatedComment)
+      if (associatedComment) return updateReplies(associatedComment)
 
-      return updateComments(userComment)
+      return updateReplies(userComment)
     }
 
     case 'edit': {
@@ -108,7 +108,7 @@ export const reducer = (state: UserComment[], action: {
         const userReply = action.comment as any as UserReply
         const associatedComment = findAssociatedComment(userReply)
 
-        const updatedComments = state.map(it => {
+        return state.map(it => {
           const replies = it.replies
 
           if (it !== associatedComment) return it
@@ -116,19 +116,15 @@ export const reducer = (state: UserComment[], action: {
           return {
             ...it,
             replies: replies.map(reply => {
-              if (reply === userReply) {
-                return {
-                  ...userReply,
-                  content: action.value
-                }
-              }
+              if (userReply !== reply) return reply
 
-              return reply
+              return {
+                ...userReply,
+                content: action.value
+              }
             })
           }
         })
-
-        return updatedComments
       }
 
       return editComment(action.comment!)
