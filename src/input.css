@@ -22,9 +22,30 @@ body {
     border-left: 1px solid hsl(228, 33%, 97%);
 }
 
+.shadow {
+    position: fixed;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, .1);
+    inset: 0;
+    display: grid;
+    place-content: center;
+}
+
+.modal {
+    position: relative;
+    background-color: white;
+    width: 20rem;
+    height: 10rem;
+    border-radius: 1rem;
+}
+
 @layer components {
     .btn {
         @apply flex items-center gap-3 text-primary-moderate-blue font-bold;
+    }
+
+    .modal-btn {
+        @apply p-3 px-7 text-white uppercase rounded-md;
     }
 }
 

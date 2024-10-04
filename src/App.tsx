@@ -29,7 +29,12 @@ export type FormLabels =
   | 'edit'
 
 export const reducer = (state: UserComment[], action: {
-  type: string
+  type:
+    | 'CREATE_COMMENT'
+    | 'REPLY_COMMENT'
+    | 'EDIT_COMMENT'
+    | 'DELETE_COMMENT'
+    
   value: string
   comment?: UserComment
 }) => {
@@ -47,7 +52,7 @@ export const reducer = (state: UserComment[], action: {
   })
 
   switch (action.type) {
-    case 'add':
+    case 'CREATE_COMMENT':
       const newComment = {
         ...comment,
         replies: []
@@ -55,7 +60,7 @@ export const reducer = (state: UserComment[], action: {
 
       return [...state, newComment]
 
-    case 'reply': {
+    case 'REPLY_COMMENT': {
       const userComment = action.comment!
       const userReply = action.comment as any as UserReply
 
@@ -89,7 +94,7 @@ export const reducer = (state: UserComment[], action: {
       return updateReplies(userComment)
     }
 
-    case 'edit': {
+    case 'EDIT_COMMENT': {
       const userReply = action.comment as any as UserReply
       const associatedComment = findAssociatedComment(userReply)
 
@@ -130,7 +135,7 @@ export const reducer = (state: UserComment[], action: {
       return editComment(action.comment!)
     }
 
-    case 'delete':
+    case 'DELETE_COMMENT':
       const userReply = (action.comment as any as UserReply)
       const associatedComment = findAssociatedComment(userReply)
       
