@@ -59,7 +59,7 @@ export const reducer = (state: UserComment[], action: {
         replies: []
       }
 
-      return [...state, newComment]
+      return updateLocalStorage([...state, newComment])
 
     case 'REPLY_COMMENT': {
       const userComment = action.comment!
@@ -90,9 +90,9 @@ export const reducer = (state: UserComment[], action: {
         return it
       })
 
-      if (associatedComment) return updateReplies(associatedComment)
-
-      return updateReplies(userComment)
+      if (associatedComment) return updateLocalStorage(updateReplies(associatedComment))
+      
+      return updateLocalStorage(updateReplies(userComment))
     }
 
     case 'EDIT_COMMENT': {
@@ -114,7 +114,7 @@ export const reducer = (state: UserComment[], action: {
         const userReply = action.comment as any as UserReply
         const associatedComment = findAssociatedComment(userReply)
 
-        return state.map(it => {
+        return updateLocalStorage(state.map(it => {
           const replies = it.replies
 
           if (it !== associatedComment) return it
@@ -130,10 +130,10 @@ export const reducer = (state: UserComment[], action: {
               }
             })
           }
-        })
+        }))
       }
 
-      return editComment(action.comment!)
+      return updateLocalStorage(editComment(action.comment!))
     }
 
     case 'DELETE_COMMENT':
@@ -143,17 +143,17 @@ export const reducer = (state: UserComment[], action: {
       if (associatedComment) {
         const replies = associatedComment.replies
 
-        return state.map(it => {
+        return updateLocalStorage(state.map(it => {
           if (associatedComment !== it) return it
 
           return {
             ...associatedComment,
             replies: replies?.filter(it => it !== userReply)
           }
-        })
+        }))
       }
 
-      return state.filter(comment => comment !== action.comment)
+      return updateLocalStorage(state.filter(comment => comment !== action.comment))
 
     default:
       return state
@@ -163,11 +163,23 @@ export const reducer = (state: UserComment[], action: {
 let nextID = 4
 
 function App() {
+  if (!localStorage.getItem('comments')) {
+    const commentsStringified = JSON.stringify(comments)
+    localStorage.setItem('comments', commentsStringified)
+  }
+
   return (
     <div className="max-w-2xl mt-4">
-      <CommentSection comments={comments} />
+      <CommentSection comments={JSON.parse(localStorage.getItem('comments') as string)} />
     </div>
   )
 }
 
 export default App
+
+function updateLocalStorage(comments: UserComment[]): UserComment[] {
+  const stringifiedComments = JSON.stringify(comments)
+  localStorage.setItem('comments', stringifiedComments)
+
+  return JSON.parse(stringifiedComments)
+}
