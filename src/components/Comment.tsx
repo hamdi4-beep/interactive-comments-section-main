@@ -18,7 +18,8 @@ export default function Comment({
     updateComment: React.Dispatch<{
         type: STATE_ACTIONS,
         value: string,
-        comment?: UserComment
+        comment?: UserComment,
+        score?: number
     }>
 }) {
     const [currentlySelected, setCurrentlySelected] = React.useState('')
@@ -32,12 +33,33 @@ export default function Comment({
 
     const handleClick = (value: FormLabels) => setCurrentlySelected(selectedValue => selectedValue === value ? '' : value)
 
+    const handleUpdateClick = (score: number) => {
+
+        if (score < 0 || score > 50) return
+
+        if ((comment as any as UserReply).replyingTo) {
+            alert('The feature to upvote a reply is currently being developed!')
+            return
+        }
+
+        updateComment({
+            type: 'UPDATE_COMMENT_SCORE',
+            score,
+            comment,
+            value: ''
+        })
+    }
+
     return (
         <div className='comment-wrapper'>
             <div className='comment'>
                 <div className="bg-white p-4 rounded-xl">
                     <div className="items-list flex gap-4">
-                        <ScoreComponent defaultScore={comment.score} />
+                        <div className="score-component bg-[#eee] grid text-center p-2 rounded-lg self-start w-12">
+                            <button className="text-neutral-grayish-blue" onClick={() => handleUpdateClick(comment.score + 1)}>+</button>
+                            <span className='text-primary-moderate-blue font-bold py-3'>{comment.score}</span>
+                            <button onClick={() => handleUpdateClick(comment.score - 1)}>-</button>
+                        </div>
 
                         <div className='w-full'>
                             <div className="flex items-center justify-between">
@@ -80,8 +102,8 @@ export default function Comment({
                             </div>
 
                             <p className='py-4'>
-                                {(comment as any).replyingTo && (
-                                    <span className='font-bold text-primary-moderate-blue'>@{(comment as any).replyingTo} </span>
+                                {(comment as any as UserReply).replyingTo && (
+                                    <span className='font-bold text-primary-moderate-blue'>@{(comment as any as UserReply).replyingTo} </span>
                                 )}
                                 
                                 {comment.content}
@@ -137,7 +159,7 @@ export default function Comment({
             )}
 
             {replies?.length > 0 && (
-                <div className='replies-list grid gap-4 ml-4 mt-4 pl-4'>
+                <div className='replies-list grid gap-4 pl-4 mt-4'>
                     {replies.map((reply, i) => (
                         <Comment
                             comment={reply as UserReply as any}
@@ -151,25 +173,6 @@ export default function Comment({
     )
 }
 
-export const ScoreComponent = ({
-    defaultScore
-}: {
-    defaultScore: number
-}) => {
-    const [score, setScore] = React.useState(defaultScore)
-
-    const handleIncreaseClick = () => score < 50 && setScore(score + 1)
-    const handleDecreaseClick = () => score > 0 && setScore(score - 1)
-
-    return (
-        <div className="score-component bg-[#eee] grid text-center p-2 rounded-lg self-start w-12">
-            <button className="text-neutral-grayish-blue" onClick={handleIncreaseClick}>+</button>
-            <span className='text-primary-moderate-blue font-bold py-3'>{score}</span>
-            <button onClick={handleDecreaseClick}>-</button>
-        </div>
-    )
-}
-
 const Modal = ({
     handleHideClick,
     handleDeleteClick
@@ -178,7 +181,8 @@ const Modal = ({
     handleDeleteClick: () => void
 }) => (
     <div className="bg-black bg-opacity-80 fixed inset-0 grid place-content-center z-50" onClick={(e: React.SyntheticEvent<HTMLElement>) => {
-        if (e.currentTarget === e.target) handleHideClick()
+        if (e.currentTarget !== e.target) return
+        handleHideClick()
     }}>
         <div className="bg-white rounded-lg max-w-sm p-4">
             <h2 className='font-bold text-neutral-grayish-blue text-xl'>Delete comment</h2>

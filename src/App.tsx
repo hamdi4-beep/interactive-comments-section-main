@@ -33,11 +33,13 @@ export type STATE_ACTIONS =
   | 'REPLY_COMMENT'
   | 'EDIT_COMMENT'
   | 'DELETE_COMMENT'
+  | 'UPDATE_COMMENT_SCORE'
 
 export const reducer = (state: UserComment[], action: {
   type: STATE_ACTIONS,
   value: string
-  comment?: UserComment
+  comment?: UserComment,
+  score?: number
 }) => {
   const comment = {
     id: nextID++,
@@ -154,6 +156,24 @@ export const reducer = (state: UserComment[], action: {
       }
 
       return updateLocalStorage(state.filter(comment => comment !== action.comment))
+
+    case 'UPDATE_COMMENT_SCORE': {
+      const associatedComment = findAssociatedComment(action.comment as any as UserReply)!
+      console.log(associatedComment)
+
+      const updatedComments = state.map(comment => {
+        if (comment !== action.comment) return comment
+
+        return {
+          ...action.comment,
+          score: action.score
+        }
+      }) as UserComment[]
+
+      updateLocalStorage(updatedComments)
+
+      return updatedComments
+    }
 
     default:
       return state
