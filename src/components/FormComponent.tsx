@@ -48,7 +48,7 @@ export default function FormComponent({
                 />
             </div>
 
-            <form action="" className="w-full" onSubmit={handleSubmit}>
+            <form className="w-full" onSubmit={handleSubmit}>
                 <input
                     type="text"
                     className='p-4 pt-2 pb-20 w-full border border-[hsl(223, 19%, 93%)] outline-none rounded-md'

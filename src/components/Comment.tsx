@@ -94,10 +94,10 @@ export default function Comment({
                                         Edit
                                     </button>)}
 
-                                    <button className='btn' onClick={() => handleClick('reply')}>
+                                    {!isCurrentUser && (<button className='btn' onClick={() => handleClick('reply')}>
                                         <img src="/interactive-comments-section-main/assets/images/icon-reply.svg" alt="" />
                                         Reply
-                                    </button>
+                                    </button>)}
                                 </div>
                             </div>
 
