@@ -37,13 +37,13 @@ export type STATE_ACTIONS =
 
 export const reducer = (state: UserComment[], action: {
   type: STATE_ACTIONS,
-  value: string
+  value?: string
   comment?: UserComment,
   score?: number
 }) => {
   const comment = {
     id: nextID++,
-    content: action.value,
+    content: action.value as string,
     createdAt: 'now',
     score: 0,
     user: currentUser
@@ -61,7 +61,7 @@ export const reducer = (state: UserComment[], action: {
         replies: []
       }
 
-      return updateLocalStorage([...state, newComment])
+      return updateLocalStorage([...state, newComment as any as UserComment])
 
     case 'REPLY_COMMENT': {
       const userComment = action.comment!
@@ -73,7 +73,7 @@ export const reducer = (state: UserComment[], action: {
 
       const reply = {
         ...comment,
-        replyingTo: user.username
+        replyingTo: user!.username
       }
 
       const updateReplies = (comment: UserComment) => state.map(it => {
@@ -105,7 +105,7 @@ export const reducer = (state: UserComment[], action: {
         if (currentComment == it) {
           return {
             ...currentComment,
-            content: action.value
+            content: action.value as string
           }
         }
 
@@ -128,7 +128,7 @@ export const reducer = (state: UserComment[], action: {
 
               return {
                 ...userReply,
-                content: action.value
+                content: action.value as string
               }
             })
           }

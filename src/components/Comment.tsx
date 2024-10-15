@@ -17,7 +17,7 @@ export default function Comment({
     comment: UserComment
     updateComment: React.Dispatch<{
         type: STATE_ACTIONS,
-        value: string,
+        value?: string,
         comment?: UserComment,
         score?: number
     }>
@@ -40,8 +40,7 @@ export default function Comment({
         updateComment({
             type: 'UPDATE_COMMENT_SCORE',
             score,
-            comment,
-            value: ''
+            comment
         })
     }
 
@@ -114,11 +113,14 @@ export default function Comment({
 
             {!isHidden && <Modal
                 handleHideClick={() => setIsHidden(true)}
-                handleDeleteClick={() => updateComment({
-                    type: 'DELETE_COMMENT',
-                    comment,
-                    value: ''
-                })}
+                handleDeleteClick={() => {
+                    setIsHidden(true)
+
+                    updateComment({
+                        type: 'DELETE_COMMENT',
+                        comment
+                    })
+                }}
             />}
 
             {currentlySelected == 'reply' && (
