@@ -37,11 +37,6 @@ export default function Comment({
 
         if (score < 0 || score > 50) return
 
-        if ((comment as any as UserReply).replyingTo) {
-            alert('The feature to upvote a reply is currently being developed!')
-            return
-        }
-
         updateComment({
             type: 'UPDATE_COMMENT_SCORE',
             score,

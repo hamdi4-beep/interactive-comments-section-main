@@ -44,7 +44,7 @@ export const reducer = (state: UserComment[], action: {
   const comment = {
     id: nextID++,
     content: action.value,
-    createdAt: "now",
+    createdAt: 'now',
     score: 0,
     user: currentUser
   }
@@ -159,20 +159,33 @@ export const reducer = (state: UserComment[], action: {
 
     case 'UPDATE_COMMENT_SCORE': {
       const associatedComment = findAssociatedComment(action.comment as any as UserReply)!
-      console.log(associatedComment)
 
-      const updatedComments = state.map(comment => {
-        if (comment !== action.comment) return comment
+      const updateScore = (comment: any) => state.map(it => {
+        if (comment !== it) return it
 
         return {
-          ...action.comment,
+          ...comment,
           score: action.score
         }
-      }) as UserComment[]
+      })
 
-      updateLocalStorage(updatedComments)
+      if (associatedComment) return updateLocalStorage(state.map(it => {
+        if (it !== associatedComment) return it
 
-      return updatedComments
+        return {
+          ...it,
+          replies: it.replies.map(it => {
+            if (it !== action.comment as any as UserReply) return it
+
+            return {
+              ...it,
+              score: action.score
+            }
+          })
+        }
+      }) as UserComment[])
+
+      return updateLocalStorage(updateScore(action.comment!))
     }
 
     default:
