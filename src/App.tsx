@@ -61,7 +61,7 @@ export const reducer = (state: UserComment[], action: {
         replies: []
       }
 
-      return updateLocalStorage([...state, newComment as any as UserComment])
+      return updateLocalStorage([...state, newComment])
 
     case 'REPLY_COMMENT': {
       const userComment = action.comment!
@@ -105,7 +105,7 @@ export const reducer = (state: UserComment[], action: {
         if (currentComment == it) {
           return {
             ...currentComment,
-            content: action.value as string
+            content: action.value!
           }
         }
 
@@ -128,7 +128,7 @@ export const reducer = (state: UserComment[], action: {
 
               return {
                 ...userReply,
-                content: action.value as string
+                content: action.value!
               }
             })
           }
@@ -196,14 +196,11 @@ export const reducer = (state: UserComment[], action: {
 let nextID = 4
 
 function App() {
-  if (!localStorage.getItem('comments')) {
-    const commentsStringified = JSON.stringify(comments)
-    localStorage.setItem('comments', commentsStringified)
-  }
+  if (!localStorage.getItem('comments')) localStorage.setItem('comments', JSON.stringify(comments))
 
   return (
     <div className="max-w-2xl mt-4">
-      <CommentSection comments={JSON.parse(localStorage.getItem('comments') as string)} />
+      <CommentSection comments={JSON.parse(localStorage.getItem('comments')!)} />
     </div>
   )
 }
