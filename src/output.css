@@ -820,6 +820,10 @@ body {
   margin-top: -1em;
 }
 
+.comments-section > .form-component {
+  padding-top: 1em;
+}
+
 .comment {
   position: relative;
   border-bottom: 1px solid #eee;
