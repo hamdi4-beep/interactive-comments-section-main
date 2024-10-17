@@ -19,7 +19,7 @@ export default function FormComponent({
     }
 
     const getLabels = (label: FormLabels) => labels[label]
-    const [text, label] = getLabels(type)
+    const [placeholder, label] = getLabels(type)
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -53,7 +53,7 @@ export default function FormComponent({
                     type="text"
                     className='p-4 pt-2 pb-20 w-full border border-[hsl(223, 19%, 93%)] outline-none rounded-md'
                     name="comment"
-                    placeholder={text}
+                    placeholder={placeholder}
                 />
                 
                 <button
