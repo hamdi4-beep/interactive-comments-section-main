@@ -674,6 +674,10 @@ video {
   border-radius: 0.75rem;
 }
 
+.rounded-full {
+  border-radius: 9999px;
+}
+
 .border {
   border-width: 1px;
 }
@@ -762,6 +766,10 @@ video {
 
 .pt-8 {
   padding-top: 2rem;
+}
+
+.pb-\[\.25em\] {
+  padding-bottom: .25em;
 }
 
 .text-center {

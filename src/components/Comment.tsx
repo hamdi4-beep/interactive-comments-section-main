@@ -69,7 +69,7 @@ export default function Comment({
                                     <h2 className='font-bold'>{user.username}</h2>
 
                                     {isCurrentUser && (
-                                        <span className='bg-primary-moderate-blue px-3 leading-tight text-white'>you</span>
+                                        <span className='bg-primary-moderate-blue px-3 rounded-md pb-[.25em] leading-tight text-white'>you</span>
                                     )}
 
                                     <span className='text-neutral-grayish-blue'>{comment.createdAt}</span>
