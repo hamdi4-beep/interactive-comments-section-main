@@ -33,12 +33,12 @@ export type STATE_ACTIONS =
   | 'REPLY_COMMENT'
   | 'EDIT_COMMENT'
   | 'DELETE_COMMENT'
-  | 'UPDATE_COMMENT_SCORE'
+  | 'UPDATE_SCORE'
 
 export const reducer = (state: UserComment[], action: {
   type: STATE_ACTIONS,
   value?: string
-  comment?: UserComment,
+  comment?: UserComment | UserReply,
   score?: number
 }) => {
   const comment = {
@@ -65,7 +65,7 @@ export const reducer = (state: UserComment[], action: {
 
     case 'REPLY_COMMENT': {
       const userComment = action.comment!
-      const userReply = action.comment as any as UserReply
+      const userReply = action.comment as UserReply
 
       const associatedComment = findAssociatedComment(userReply)
 
@@ -94,7 +94,7 @@ export const reducer = (state: UserComment[], action: {
 
       if (associatedComment) return updateLocalStorage(updateReplies(associatedComment))
       
-      return updateLocalStorage(updateReplies(userComment))
+      return updateLocalStorage(updateReplies(userComment as UserComment))
     }
 
     case 'EDIT_COMMENT': {
@@ -135,11 +135,11 @@ export const reducer = (state: UserComment[], action: {
         }))
       }
 
-      return updateLocalStorage(editComment(action.comment!))
+      return updateLocalStorage(editComment(action.comment as UserComment))
     }
 
     case 'DELETE_COMMENT':
-      const userReply = (action.comment as any as UserReply)
+      const userReply = (action.comment as UserReply)
       const associatedComment = findAssociatedComment(userReply)
       
       if (associatedComment) {
@@ -157,15 +157,15 @@ export const reducer = (state: UserComment[], action: {
 
       return updateLocalStorage(state.filter(comment => comment !== action.comment))
 
-    case 'UPDATE_COMMENT_SCORE': {
-      const associatedComment = findAssociatedComment(action.comment as any as UserReply)!
+    case 'UPDATE_SCORE': {
+      const associatedComment = findAssociatedComment(action.comment as UserReply)
 
-      const updateScore = (comment: any) => state.map(it => {
-        if (comment !== it) return it
+      const updateScore = (userComment: UserComment | UserReply) => state.map(it => {
+        if (userComment !== it) return it
 
         return {
-          ...comment,
-          score: action.score
+          ...userComment,
+          score: action.score!
         }
       })
 
@@ -175,7 +175,7 @@ export const reducer = (state: UserComment[], action: {
         return {
           ...it,
           replies: it.replies.map(it => {
-            if (it !== action.comment as any as UserReply) return it
+            if (it !== action.comment as UserReply) return it
 
             return {
               ...it,
@@ -185,7 +185,7 @@ export const reducer = (state: UserComment[], action: {
         }
       }) as UserComment[])
 
-      return updateLocalStorage(updateScore(action.comment!))
+      return updateLocalStorage(updateScore(action.comment as UserComment))
     }
 
     default:
@@ -210,6 +210,5 @@ export default App
 function updateLocalStorage(comments: UserComment[]): UserComment[] {
   const stringifiedComments = JSON.stringify(comments)
   localStorage.setItem('comments', stringifiedComments)
-
-  return JSON.parse(stringifiedComments)
+  return comments
 }
