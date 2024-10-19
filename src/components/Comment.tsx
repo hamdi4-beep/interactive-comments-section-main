@@ -44,6 +44,28 @@ export default function Comment({
         })
     }
 
+    const handleReplyClick = (value: string) => {
+        setCurrentlySelected('')
+
+        updateComment({
+            type: 'REPLY_COMMENT',
+            comment,
+            value
+        })
+    }
+
+    const handleEditClick = (newValue: string) => {
+        setCurrentlySelected('')
+
+        updateComment({
+            type: 'EDIT_COMMENT',
+            value: newValue,
+            comment
+        })
+
+        setIsEditted(true)
+    }
+
     return (
         <div className='comment-wrapper'>
             <div className='comment'>
@@ -123,35 +145,10 @@ export default function Comment({
                 }}
             />}
 
-            {currentlySelected == 'reply' && (
+            {currentlySelected && (
                 <FormComponent
-                    type={currentlySelected}
-                    onUpdate={(value: string) => {
-                        setCurrentlySelected('')
-
-                        updateComment({
-                            type: 'REPLY_COMMENT',
-                            comment,
-                            value
-                        })
-                    }}
-                />
-            )}
-
-            {currentlySelected == 'edit' && (
-                <FormComponent
-                    type={currentlySelected}
-                    onUpdate={(newValue: string) => {
-                        setCurrentlySelected('')
-
-                        updateComment({
-                            type: 'EDIT_COMMENT',
-                            value: newValue,
-                            comment
-                        })
-
-                        setIsEditted(true)
-                    }}
+                    type={currentlySelected == 'reply' ? 'reply' : 'edit'}
+                    onUpdate={currentlySelected == 'reply' ? handleReplyClick : handleEditClick}
                 />
             )}
 
