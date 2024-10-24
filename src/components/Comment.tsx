@@ -146,7 +146,6 @@ export default function Comment({
             />}
 
             {currentlySelected && (
-            {currentlySelected && (
                 <FormComponent
                     type={currentlySelected == 'reply' ? 'reply' : 'edit'}
                     onUpdate={currentlySelected == 'reply' ? handleReplyClick : handleEditClick}
