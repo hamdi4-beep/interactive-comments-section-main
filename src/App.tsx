@@ -34,6 +34,7 @@ export type STATE_ACTIONS =
   | 'EDIT_COMMENT'
   | 'DELETE_COMMENT'
   | 'UPDATE_SCORE'
+  | 'PIN_COMMENT'
 
 export const reducer = (state: UserComment[], action: {
   type: STATE_ACTIONS,
@@ -61,7 +62,7 @@ export const reducer = (state: UserComment[], action: {
         replies: []
       }
 
-      return updateLocalStorage([...state, newComment])
+      return updateLocalStorage([newComment, ...state])
 
     case 'REPLY_COMMENT': {
       const userComment = action.comment!
@@ -197,7 +198,7 @@ let nextID = 4
 
 function App() {
   if (!localStorage.getItem('comments')) localStorage.setItem('comments', JSON.stringify(comments))
-
+  
   return (
     <div className="max-w-2xl mt-4">
       <CommentSection comments={JSON.parse(localStorage.getItem('comments')!)} />

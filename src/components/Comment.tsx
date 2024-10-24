@@ -14,11 +14,11 @@ export default function Comment({
     comment,
     updateComment
 }: {
-    comment: UserComment
+    comment: UserComment | UserReply
     updateComment: React.Dispatch<{
         type: STATE_ACTIONS,
         value?: string,
-        comment?: UserComment,
+        comment?: UserComment | UserReply,
         score?: number
     }>
 }) {
@@ -29,7 +29,7 @@ export default function Comment({
     const user = comment.user
     const isCurrentUser = currentUser.username === user.username
 
-    const replies = comment.replies
+    const replies = (comment as UserComment).replies
 
     const handleClick = (value: FormLabels) => setCurrentlySelected(selectedValue => selectedValue === value ? '' : value)
 
@@ -40,7 +40,7 @@ export default function Comment({
         updateComment({
             type: 'UPDATE_SCORE',
             score,
-            comment
+            comment: comment as UserComment
         })
     }
 
@@ -49,7 +49,7 @@ export default function Comment({
 
         updateComment({
             type: 'REPLY_COMMENT',
-            comment,
+            comment: comment as UserComment,
             value
         })
     }
@@ -60,7 +60,7 @@ export default function Comment({
         updateComment({
             type: 'EDIT_COMMENT',
             value: newValue,
-            comment
+            comment: comment as UserComment
         })
 
         setIsEditted(true)
@@ -118,7 +118,7 @@ export default function Comment({
                             </div>
 
                             <p className='py-4'>
-                                {(comment as any as UserReply).replyingTo && (
+                                {(comment as UserReply).replyingTo && (
                                     <span className='font-bold text-primary-moderate-blue'>@{(comment as any as UserReply).replyingTo} </span>
                                 )}
                                 
@@ -140,7 +140,7 @@ export default function Comment({
 
                     updateComment({
                         type: 'DELETE_COMMENT',
-                        comment
+                        comment: comment as UserComment
                     })
                 }}
             />}
@@ -156,7 +156,7 @@ export default function Comment({
                 <div className='replies-list grid gap-4 pl-4 mt-4'>
                     {replies.map((reply, i) => (
                         <Comment
-                            comment={reply as UserReply as any}
+                            comment={reply}
                             updateComment={updateComment}
                             key={i}
                         />
