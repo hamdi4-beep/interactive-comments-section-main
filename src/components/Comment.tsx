@@ -38,7 +38,7 @@ export default function Comment({
         if (score < 0 || score > 50) return
 
         updateComment({
-            type: 'UPDATE_SCORE',
+            type: 'UPDATE_COMMENT_SCORE',
             score,
             comment: comment as UserComment
         })
