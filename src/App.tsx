@@ -61,10 +61,12 @@ export const reducer = (state: UserComment[], action: {
         replies: []
       }
 
-      setTimeout(() => window.scrollBy({
-        top: window.innerHeight,
-        behavior: 'smooth'
-      }))
+      setTimeout(() => {
+        window.scroll({
+          top: document.body.clientHeight,
+          behavior: 'smooth'
+        })
+      }, 0)
 
       return updateLocalStorage([...state, newComment])
 
