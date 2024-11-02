@@ -34,7 +34,6 @@ export type STATE_ACTIONS =
   | 'EDIT_COMMENT'
   | 'DELETE_COMMENT'
   | 'UPDATE_SCORE'
-  | 'PIN_COMMENT'
 
 export const reducer = (state: UserComment[], action: {
   type: STATE_ACTIONS,
@@ -62,7 +61,12 @@ export const reducer = (state: UserComment[], action: {
         replies: []
       }
 
-      return updateLocalStorage([newComment, ...state])
+      setTimeout(() => window.scrollBy({
+        top: window.innerHeight,
+        behavior: 'smooth'
+      }))
+
+      return updateLocalStorage([...state, newComment])
 
     case 'REPLY_COMMENT': {
       const userComment = action.comment!
