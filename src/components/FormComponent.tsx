@@ -2,15 +2,20 @@ import * as React from 'react'
 
 import {
     currentUser,
-    FormLabels
+    FormLabels,
+    UserComment
 } from '../App'
+
+const inputRef = React.createRef<HTMLTextAreaElement>()
 
 export default function FormComponent({
     type,
-    onUpdate
+    onUpdate,
+    comment
 }: {
     type: FormLabels
     onUpdate: Function
+    comment?: UserComment
 }) {
     const labels = {
         comment: ['Add comment...', 'Comment'],
@@ -49,11 +54,12 @@ export default function FormComponent({
             </div>
 
             <form className="w-full" onSubmit={handleSubmit}>
-                <input
-                    type="text"
+                <textarea
                     className='p-4 pt-2 pb-20 w-full border border-[hsl(223, 19%, 93%)] outline-none rounded-md'
                     name="comment"
+                    ref={inputRef}
                     placeholder={placeholder}
+                    defaultValue={type === 'edit' ? comment?.content : ''}
                 />
                 
                 <button

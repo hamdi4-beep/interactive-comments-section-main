@@ -34,7 +34,6 @@ export default function Comment({
     const handleClick = (value: FormLabels) => setCurrentlySelected(selectedValue => selectedValue === value ? '' : value)
 
     const handleUpdateClick = (score: number) => {
-
         if (score < 0 || score > 50) return
 
         updateComment({
@@ -122,7 +121,7 @@ export default function Comment({
                                     <span className='font-bold text-primary-moderate-blue'>@{(comment as any as UserReply).replyingTo} </span>
                                 )}
                                 
-                                {comment.content}
+                                <span>{comment.content}</span>
 
                                 {isEditted && (
                                     <span className='text-neutral-grayish-blue'> (edited)</span>
@@ -148,6 +147,7 @@ export default function Comment({
             {currentlySelected && (
                 <FormComponent
                     type={currentlySelected == 'reply' ? 'reply' : 'edit'}
+                    comment={comment as UserComment}
                     onUpdate={currentlySelected == 'reply' ? handleReplyClick : handleEditClick}
                 />
             )}

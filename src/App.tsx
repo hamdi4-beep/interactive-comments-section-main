@@ -65,7 +65,7 @@ export const reducer = (state: UserComment[], action: {
         behavior: 'smooth'
       }), 0)
 
-      return updateLocalStorage([newComment, ...state])
+      return updateLocalStorage([...state, newComment])
 
     case 'REPLY_COMMENT': {
       const userComment = action.comment!
