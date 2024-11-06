@@ -43,6 +43,13 @@ export default function FormComponent({
         onUpdate(value)
     }
 
+    React.useEffect(() => {
+        if (inputRef.current) {
+            const elem = inputRef.current
+            elem.focus()
+        }
+    }, [])
+
     return (
         <div className="form-component bg-white rounded-xl p-4 pt-8 -mt-4 flex gap-3 items-start">
             <div className="user-img self-start flex-shrink-0">
